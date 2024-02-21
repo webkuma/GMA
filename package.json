@@ -1,0 +1,50 @@
+{
+  "name": "golden-music",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:unit": "vitest",
+    "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
+    "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cli-table": "^0.3.11",
+    "express": "^4.18.2",
+    "gsap": "^3.12.5",
+    "instantsearch.css": "^8.1.0",
+    "pinia": "^2.0.36",
+    "sql.js": "^1.9.0",
+    "sqlite3": "^5.1.6",
+    "sweetalert2": "^11.7.12",
+    "vue": "^3.3.2",
+    "vue-instantsearch": "^4.13.5",
+    "vue-lazyload": "^3.0.0",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "@vue/test-utils": "^2.3.2",
+    "autoprefixer": "^10.4.14",
+    "cpx": "^1.5.0",
+    "cypress": "^12.12.0",
+    "eslint": "^8.39.0",
+    "eslint-plugin-cypress": "^2.13.3",
+    "eslint-plugin-vue": "^9.11.0",
+    "jsdom": "^22.0.0",
+    "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
+    "start-server-and-test": "^2.0.0",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.3.5",
+    "vite-plugin-copy": "^0.1.6",
+    "vitest": "^0.31.0"
+  }
+}
