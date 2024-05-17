@@ -70,7 +70,7 @@ async function getSelectedYear() {
   const db = await initDatabase();
   const result = db.exec(`select DISTINCT year from shortlist ORDER BY year DESC`);
   yearList.value = result[0].values.map((item) => item[0]);
-  selectedYear.value = yearList.value[0]; // [0] 取最新年份
+  selectedYear.value = routerParamsYear.value; // [0] 取最新年份
 }
 // 下拉選單 @change => getYearData()
 function onchangeUpdateYear(year) {
