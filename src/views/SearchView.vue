@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Loading from '../components/Loading.vue';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 // router
 import { RouterLink, useRouter } from 'vue-router';
 const router = useRouter();
@@ -65,9 +68,21 @@ function handleScroll() {
 function handleAddToLocalStorage(id) {
   const isIdExist = localStorage.getItem(`favoriteStorage-${id}`) ? true : false;
   if (isIdExist) {
+    toast.success('已從收藏移除', {
+      theme: 'dark',
+      autoClose: 1500,
+      transition: 'zoom',
+      position: toast.POSITION.TOP_RIGHT,
+    });
     localStorage.removeItem(`favoriteStorage-${id}`);
     store.updateYearsDataStorage(id, false);
   } else {
+    toast.success('已添加至收藏', {
+      theme: 'dark',
+      autoClose: 1500,
+      transition: 'zoom',
+      position: toast.POSITION.TOP_RIGHT,
+    });
     localStorage.setItem(`favoriteStorage-${id}`, 'id');
     store.updateYearsDataStorage(id, true);
   }
