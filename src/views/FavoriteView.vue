@@ -5,6 +5,8 @@ import { useSearchStore } from '../stores/counter.js';
 const store = useSearchStore();
 import Loading from '../components/Loading.vue';
 import initSqlJs from 'sql.js';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const isLoading = ref(1);
 const router = useRouter();
@@ -61,6 +63,12 @@ async function getSelectedYear() {
 function handleRemoveLocalStorage(id) {
   favoriteData.value.forEach((element) => {
     if (element.id == id) {
+      toast.success('已從收藏移除', {
+        theme: 'dark',
+        autoClose: 1000,
+        transition: 'zoom',
+        position: toast.POSITION.TOP_RIGHT,
+      });
       element.isStoraged = false;
       localStorage.removeItem(`favoriteStorage-${id}`);
       store.updateYearsDataStorage(id, false);
