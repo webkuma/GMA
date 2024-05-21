@@ -6,7 +6,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 // pinia
 import { useGetYearDataStore } from '../stores/counter.js';
+import { useGetLastYearNominees } from '../stores/counter.js';
 const store = useGetYearDataStore();
+const getLastYearNomineesStore = useGetLastYearNominees();
 // gsap
 import { gsap } from 'gsap';
 
@@ -24,6 +26,10 @@ const LoadImg = () => {
   };
 };
 const lastYear = ref(); // 取得資料庫的最新年份
+const femaleSingerNominees = ref();
+const maleSingerNominees = ref();
+const newArtistNominees = ref();
+const topSongNominees = ref();
 const anim = ref();
 onMounted(async () => {
   LoadImg();
@@ -37,8 +43,20 @@ onMounted(async () => {
   await nextTick();
   gsap.set('#box', { y: 0 }); // 設置高度 讓他可以往下彈跳
   gsapAnimations();
+  getLatestNominees();
 });
 
+// 取得最新年份的資料(輪播用)
+async function getLatestNominees() {
+  femaleSingerNominees.value = await getLastYearNomineesStore.getYearData('最佳華語女歌手獎');
+  maleSingerNominees.value = await getLastYearNomineesStore.getYearData('最佳華語男歌手獎');
+  newArtistNominees.value = await getLastYearNomineesStore.getYearData('最佳新人獎');
+  topSongNominees.value = await getLastYearNomineesStore.getYearData('年度歌曲獎');
+}
+// 點擊推播圖片後跳轉
+function carouselRouter(year, awards) {
+  router.push({ path: `/Awards/${year}/${awards}` });
+}
 // 查看最新名單跳轉
 function updateSelectedYear(year) {
   router.push({ path: `/Awards/${year}` });
@@ -68,10 +86,14 @@ onUnmounted(() => {
     </div>
 
     <div v-else>
+      <!-- bg img -->
       <div class="relative shadow-sm shadow-gray-100">
-        <!-- bg img -->
-        <img :src="bannerImageUrl" class="w-full min-h-[calc(100vh_-_64px)] h-auto object-cover" alt="Banner Image" />
-        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+        <img
+          :src="bannerImageUrl"
+          class="relative w-full min-h-[calc(100vh_-_150px)] h-auto object-cover bg-black bg-opacity-60"
+          alt="Banner Image"
+        />
+        <div class="absolute inset-0 bg-black opacity-50"></div>
 
         <!-- text -->
         <div class="absolute inset-0">
@@ -132,6 +154,160 @@ onUnmounted(() => {
               </svg>
               <span class="inline-block font-bold text-lg text-gray-900">{{ year }} 年</span>
             </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-center font-bold text-2xl my-8 text-custom-gold">最新入圍資訊</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 place-items-center place-content-center">
+          <div>
+            <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
+            <div id="carouselTopSongControls" class="carousel slide h-[230px] w-[250px]" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div
+                  class="carousel-item cursor-pointer"
+                  :class="{ active: index === 0 }"
+                  v-for="(item, index) in topSongNominees"
+                  :key="item.title"
+                  @click="carouselRouter(item[4], item[1])"
+                >
+                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
+                  <div class="flex flex-col items-center justify-center mt-4">
+                    <h3>{{ item[2] + ' ' + item[3] }}</h3>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselTopSongControls"
+                data-bs-slide="prev"
+              >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselTopSongControls"
+                data-bs-slide="next"
+              >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-center font-bold text-xl my-4">最佳新人獎</h3>
+            <div id="carouselNewArtistControls" class="carousel slide h-[230px] w-[250px]" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div
+                  class="carousel-item cursor-pointer"
+                  :class="{ active: index === 0 }"
+                  v-for="(item, index) in newArtistNominees"
+                  :key="item.title"
+                  @click="carouselRouter(item[4], item[1])"
+                >
+                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
+                  <div class="flex items-center justify-center mt-4">
+                    <h3>{{ item[2] + item[3] }}</h3>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselNewArtistControls"
+                data-bs-slide="prev"
+              >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselNewArtistControls"
+                data-bs-slide="next"
+              >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-center font-bold text-xl my-4">最佳華語女歌手獎</h3>
+            <div id="carouselFemaleSingerControls" class="carousel slide h-[230px] w-[250px]" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div
+                  class="carousel-item cursor-pointer"
+                  :class="{ active: index === 0 }"
+                  v-for="(item, index) in femaleSingerNominees"
+                  :key="item.title"
+                  @click="carouselRouter(item[4], item[1])"
+                >
+                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
+                  <div class="flex items-center justify-center mt-4">
+                    <h3>{{ item[2] + '《' + item[3] + '》' }}</h3>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselFemaleSingerControls"
+                data-bs-slide="prev"
+              >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselFemaleSingerControls"
+                data-bs-slide="next"
+              >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-center font-bold text-xl my-4">最佳華語男歌手獎</h3>
+            <div id="carouselMaleSingerControls" class="carousel slide h-[230px] w-[250px]" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div
+                  class="carousel-item cursor-pointer"
+                  :class="{ active: index === 0 }"
+                  v-for="(item, index) in maleSingerNominees"
+                  :key="item.title"
+                  @click="carouselRouter(item[4], item[1])"
+                >
+                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
+                  <div class="flex items-center justify-center mt-4">
+                    <h3>{{ item[2] + '《' + item[3] + '》' }}</h3>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselMaleSingerControls"
+                data-bs-slide="prev"
+              >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselMaleSingerControls"
+                data-bs-slide="next"
+              >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
