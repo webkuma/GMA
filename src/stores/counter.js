@@ -2,6 +2,34 @@ import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import initSqlJs from 'sql.js';
 
+/** 將 SQLite 返回的数据格式转换为对象数组。
+ * 
+ * @param {Array} columns - 包含列名的数组，每个元素是一个列名字符串。例如：['id', 'awards', 'nominee', 'work', 'year', 'won', 'url']。
+ * @param {Array} values - 包含数据值的二维数组，每个子数组表示一行数据。例如：[[1, 'Best Actor', 'Leonardo DiCaprio', 'Inception', 2010, true, 'https://example.com/1'], ...]。
+ * @returns {Array} - 转换后的对象数组，每个对象对应一行数据，其中键是列名，值是数据值。
+ * 
+ * @example
+ * const columns = ['id', 'awards', 'nominee', 'work', 'year', 'won', 'url'];
+ * const values = [
+ *   [1, 'Best Actor', 'Leonardo DiCaprio', 'Inception', 2010, true, 'https://example.com/1'],
+ *   [2, 'Best Actress', 'Natalie Portman', 'Black Swan', 2010, true, 'https://example.com/2'],
+ * ...];
+ * const result = mapSQLiteResultToObjects(columns, values);
+ * // result: [
+ * //   { id: 1, awards: 'Best Actor', nominee: 'Leonardo DiCaprio', work: 'Inception', year: 2010, won: true, url: 'https://example.com/1' },
+ * //   { id: 2, awards: 'Best Actress', nominee: 'Natalie Portman', work: 'Black Swan', year: 2010, won: true, url: 'https://example.com/2' },
+ * // ...]
+ */
+const mapSQLiteResultToObjects = (columns, values) => {
+  return values.map(valueArray => {
+      let obj = {};
+      columns.forEach((col, index) => {
+          obj[col] = valueArray[index];
+      });
+      return obj;
+  });
+};
+
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
   const selected = ref('分類') // SearchBox 的下拉選單
