@@ -1,6 +1,7 @@
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import initSqlJs from 'sql.js';
+import axios from 'axios';
 
 /** 將 SQLite 返回的数据格式转换为对象数组。
  * 
@@ -223,21 +224,56 @@ export const useInitDatabaseStore = defineStore('initDatabase', () => {
 
   return { initDatabase };
 });
-// HomeView 取得年份的資料 
+
+/* ------  HomeView ------ */
+
+/** Homeview 取得所有年份資料(DISTINCT)。
+ * 
+ * @returns {Promise<Array<number>>} - 包含年份的數組。
+ */
 export const useGetYearDataStore = defineStore('getYearData', () => {
-  const yearData = ref()
-  const isLoading = ref()
-  async function getYearData(query) {
-    const sql = query
+  const sql = "SELECT DISTINCT year FROM shortlist WHERE shortlist.won = 1 ORDER BY year DESC";
+  const yearData = ref();
+  const isLoading = ref();
+  async function getYearData() {
     const init = useInitDatabaseStore();
-    const db = await init.initDatabase() 
+    const db = await init.initDatabase() ;
     const result = db.exec(sql);
+    console.log(result[0].values);
     yearData.value = result[0].values.map((item) => item[0]);
-    isLoading.value = yearData.value ? 0 : 1
+    isLoading.value = yearData.value ? 0 : 1;
   }
 
   return { yearData, isLoading ,getYearData }
 })
+
+/** Homeview(輪播功能) 取得指定獎項最新年份的資料。
+ * 
+ * @param {string} awards - 獎項名稱。
+ * @returns {Promise<Array<Object>>} - 包含最新年份指定獎項候選人資料的對象數組。
+ * 
+ * @remarks AND nominee != '尚未開獎'`; 為未開獎時佔位資料，輪播不需要出現。
+ */
+export const useGetLastYearNominees = defineStore('getLastYearAlbums', () => {
+  async function getYearData(awards) {
+    const sql = `
+    SELECT DISTINCT * FROM shortlist 
+    WHERE year = (
+        SELECT MAX(year) 
+        FROM shortlist
+    )
+    AND awards = '${awards}'
+    AND nominee != '尚未開獎'`;
+    const init = useInitDatabaseStore();
+    const db = await init.initDatabase();
+    const result = db.exec(sql);
+    return mapSQLiteResultToObjects(result[0].columns, result[0].values);
+  }
+
+  return { getYearData }
+})
+
+
 // SearchView 取得list的資料 
 export const useGetWonListStore = defineStore('GetWonList', () => {
   const mountedWonList = ref()
