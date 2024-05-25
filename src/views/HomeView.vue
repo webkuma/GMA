@@ -16,7 +16,6 @@ const yearData = ref();
 const isLoading = ref(1);
 
 const bannerImageUrl = ref();
-const sql = 'SELECT DISTINCT year FROM shortlist WHERE shortlist.won = 1 ORDER BY year DESC';
 const LoadImg = () => {
   const img = new Image();
   img.src =
@@ -35,7 +34,7 @@ onMounted(async () => {
   LoadImg();
   // yearData = undefined，去 store.getYearData 拿資料
   if (!yearData.value) {
-    await store.getYearData(sql);
+    await store.getYearData();
     yearData.value = store.yearData;
     isLoading.value = store.isLoading;
     lastYear.value = yearData.value[0]; // 最新年份
@@ -103,15 +102,15 @@ onUnmounted(() => {
               class="pb-12 [&>span:nth-child(n)]:first-letter:tracking-wide text-2xl [&>span:nth-child(2)]:px-2 [&>span:nth-child(n)]:first-letter:text-[#eacd76] [&>span:nth-child(n)]:first-letter:text-4xl [&>span:nth-child(n)]:font-extrabold [&>span:nth-child(n)]:inline-block"
             >
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                <span id="letter" class="inline-block letter text-3xl font-extrabold">G</span>
+                <span id="letter" class="inline-block letter text-3xl font-bold">G</span>
                 <span>olden</span>
               </span>
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                <span id="letter" class="inline-block text-3xl font-extrabold">M</span>
+                <span id="letter" class="inline-block text-3xl font-bold">M</span>
                 <span>elody</span>
               </span>
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                <span id="letter" class="inline-block text-3xl font-extrabold">A</span>
+                <span id="letter" class="inline-block text-3xl font-bold">A</span>
                 <span>wards</span>
               </span>
             </p>
@@ -159,7 +158,7 @@ onUnmounted(() => {
       </div>
 
       <div>
-        <h2 class="text-center font-bold text-2xl my-8 text-custom-gold">最新入圍資訊</h2>
+        <h2 class="text-center font-bold text-2xl my-8 text-[#f4e0b2]">最新入圍資訊</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 place-items-center place-content-center">
           <div>
             <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
@@ -169,12 +168,12 @@ onUnmounted(() => {
                   class="carousel-item cursor-pointer"
                   :class="{ active: index === 0 }"
                   v-for="(item, index) in topSongNominees"
-                  :key="item.title"
-                  @click="carouselRouter(item[4], item[1])"
+                  :key="item.id"
+                  @click="carouselRouter(item.year, item.awards)"
                 >
-                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
+                  <img :src="item.url" :alt="item.work" class="w-[150px] ml-12 rounded" />
                   <div class="flex flex-col items-center justify-center mt-4">
-                    <h3>{{ item[2] + ' ' + item[3] }}</h3>
+                    <h3>{{ item.nominee + ' ' + item.work }}</h3>
                   </div>
                 </div>
               </div>
@@ -206,12 +205,12 @@ onUnmounted(() => {
                   class="carousel-item cursor-pointer"
                   :class="{ active: index === 0 }"
                   v-for="(item, index) in newArtistNominees"
-                  :key="item.title"
-                  @click="carouselRouter(item[4], item[1])"
+                  :key="item.id"
+                  @click="carouselRouter(item.year, item.awards)"
                 >
-                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
-                  <div class="flex items-center justify-center mt-4">
-                    <h3>{{ item[2] + item[3] }}</h3>
+                  <img :src="item.url" :alt="item.work" class="w-[150px] ml-12 rounded" />
+                  <div class="flex flex-col items-center justify-center mt-4">
+                    <h3>{{ item.nominee + ' ' + item.work }}</h3>
                   </div>
                 </div>
               </div>
@@ -243,12 +242,12 @@ onUnmounted(() => {
                   class="carousel-item cursor-pointer"
                   :class="{ active: index === 0 }"
                   v-for="(item, index) in femaleSingerNominees"
-                  :key="item.title"
-                  @click="carouselRouter(item[4], item[1])"
+                  :key="item.id"
+                  @click="carouselRouter(item.year, item.awards)"
                 >
-                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
-                  <div class="flex items-center justify-center mt-4">
-                    <h3>{{ item[2] + '《' + item[3] + '》' }}</h3>
+                  <img :src="item.url" :alt="item.work" class="w-[150px] ml-12 rounded" />
+                  <div class="flex flex-col items-center justify-center mt-4">
+                    <h3>{{ item.nominee + ' ' + item.work }}</h3>
                   </div>
                 </div>
               </div>
@@ -280,12 +279,12 @@ onUnmounted(() => {
                   class="carousel-item cursor-pointer"
                   :class="{ active: index === 0 }"
                   v-for="(item, index) in maleSingerNominees"
-                  :key="item.title"
-                  @click="carouselRouter(item[4], item[1])"
+                  :key="item.id"
+                  @click="carouselRouter(item.year, item.awards)"
                 >
-                  <img :src="item[6]" :alt="item" class="w-[150px] ml-12 rounded" />
-                  <div class="flex items-center justify-center mt-4">
-                    <h3>{{ item[2] + '《' + item[3] + '》' }}</h3>
+                  <img :src="item.url" :alt="item.work" class="w-[150px] ml-12 rounded" />
+                  <div class="flex flex-col items-center justify-center mt-4">
+                    <h3>{{ item.nominee + ' ' + item.work }}</h3>
                   </div>
                 </div>
               </div>
