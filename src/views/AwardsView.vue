@@ -10,7 +10,7 @@ const isLoading = ref(1);
 const sortedEntries = ref(0);
 const router = useRouter();
 const routerParamsYear = ref();
-const awardsData  = ref(); // 取得當年度的獎項名稱&得獎作品的圖片
+const awardsData = ref(); // 取得當年度的獎項名稱&得獎作品的圖片
 const alertBackgroundImg = ref();
 const LoadImg = () => {
   const img = new Image();
@@ -21,7 +21,7 @@ const LoadImg = () => {
   };
 };
 const isNotFoundYear = ref();
-const yearList = ref(); // 下拉選單所有年份 
+const yearList = ref(); // 下拉選單所有年份
 const selectedYear = ref('');
 
 onMounted(async () => {
@@ -52,7 +52,25 @@ async function getYearData() {
     FROM awards, shortlist
     WHERE awards.awards = shortlist.awards
     AND shortlist.year = ${routerParamsYear.value}
-    AND shortlist.won = 1;`,
+    AND shortlist.won = 1
+    ORDER BY CASE awards.awards
+    WHEN '年度歌曲獎' THEN 1
+    WHEN '年度專輯獎' THEN 2
+    WHEN '最佳華語專輯獎' THEN 3
+    WHEN '最佳華語男歌手獎' THEN 4
+    WHEN '最佳華語女歌手獎' THEN 5
+    WHEN '最佳新人獎' THEN 6
+    WHEN '最佳台語專輯獎' THEN 7
+    WHEN '最佳台語男歌手獎' THEN 8
+    WHEN '最佳台語女歌手獎' THEN 9
+    WHEN '最佳樂團獎' THEN 10
+    WHEN '最佳演唱組合獎' THEN 11
+    WHEN '最佳作詞人獎' THEN 12
+    WHEN '最佳作曲人獎' THEN 13
+    WHEN '最佳單曲製作人獎' THEN 14
+    WHEN '最佳專輯製作人獎' THEN 15
+    ELSE 99 -- 預設值
+    END;`,
   );
   if (imgResult.length) {
     awardsData.value = imgResult[0].values;
@@ -85,11 +103,12 @@ function openSwal2(p1, bgImg) {
   select * from shortlist where year = ${routerParamsYear.value} and awards = "${p1}"`);
   if (result && result.length >= 1) {
     result[0].values.forEach((e) => {
-      // e[5] = 得獎
+      // e[5] = 得獎, 1=獎項 2=歌手 3=song 4=年
       if (e[5]) {
         str += `
           <div class="flex justify-center items-stretch  m-4" v-for="item in sortedEntries"
           :key="item.id">
+          
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-red-600 leading-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
             </svg>
@@ -111,6 +130,11 @@ function openSwal2(p1, bgImg) {
     // icon: 'error',
     confirmButtonText: 'Cool',
   });
+}
+// 查看最新名單跳轉
+function updateSelectedYear(awards) {
+  // console.log(awards);
+  router.push({ path: `/Awards/${routerParamsYear.value}/${awards}` });
 }
 </script>
 
@@ -207,6 +231,7 @@ function openSwal2(p1, bgImg) {
             </ol>
           </nav>
         </div>
+
         <!-- 年份下拉選單 -->
         <div class="flex">
           <select
@@ -223,11 +248,12 @@ function openSwal2(p1, bgImg) {
       <div
         class="place-items-center place-content-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       >
+        <!-- @click="openSwal2(item[0], alertBackgroundImg)" -->
         <div
           class="relative w-60 h-60 flex items-center justify-center bg-custom-gold rounded-md cursor-pointer m-4"
           v-for="item in awardsData"
           :key="item.id"
-          @click="openSwal2(item[0], alertBackgroundImg)"
+          @click="updateSelectedYear(item[0])"
         >
           <span class="absolute inset-0 bg-black rounded-md opacity-50" aria-hidden="true"></span>
           <span class="absolute text-xl font-bold">{{ item[0] }}</span>
