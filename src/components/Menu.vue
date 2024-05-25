@@ -7,8 +7,7 @@ const router = useRouter();
 
 async function navigateToPage(page) {
   if (!storeYearData.yearData) {
-    const sql = 'SELECT DISTINCT year FROM shortlist WHERE shortlist.won = 1 ORDER BY year DESC';
-    await storeYearData.getYearData(sql);
+    await storeYearData.getYearData();
   }
   if (page !== 'awards') {
     router.push({ path: `/${page}` });
