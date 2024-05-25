@@ -193,19 +193,36 @@ export const useSearchStore = defineStore('search', () => {
   }
   return { updateYearsDataStorage, state, updateState, yearsData ,searchWord, searchInput, storageMatchData, setSearchWord, searchHandler, backWonList }
 })
-// 用於初始化 sqlite 
+// init SQLITE
 export const useInitDatabaseStore = defineStore('initDatabase', () => {
+  let cachedDB = null;
   async function initDatabase() {
-    const sqlPromise = await initSqlJs({
-      locateFile: (file) => `https://sql.js.org/dist/${file}`,
-    });
-    const dataPromise = fetch('/backend/music.db').then((res) => res.arrayBuffer());
-    const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
-    const db = new SQL.Database(new Uint8Array(buf));
-    return db;
+    if (cachedDB) {
+      return cachedDB;
+    }
+
+    try {
+      const sqlPromise = await initSqlJs({
+        locateFile: (file) => `https://sql.js.org/dist/${file}`,
+      });
+      const dataPromise = fetch('/backend/music.db').then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch database file.');
+        }
+        return res.arrayBuffer();
+      });
+      const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
+      const db = new SQL.Database(new Uint8Array(buf));
+      cachedDB = db;
+      return db;
+    } catch (error) {
+      console.error('Database initialization failed:', error);
+      throw error;
+    }
   }
-  return { initDatabase }
-})
+
+  return { initDatabase };
+});
 // HomeView 取得年份的資料 
 export const useGetYearDataStore = defineStore('getYearData', () => {
   const yearData = ref()
