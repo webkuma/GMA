@@ -250,16 +250,18 @@ export const useGetYearDataStore = defineStore('getYearData', () => {
 /** Homeview(輪播功能) 取得指定獎項最新年份的資料。
  * 
  * @param {string} awards - 獎項名稱。
+ * @param {boolean} isPreviousYear - true 為取得去年資料，否則為今年。(new)
  * @returns {Promise<Array<Object>>} - 包含最新年份指定獎項候選人資料的對象數組。
  * 
  * @remarks AND nominee != '尚未開獎'`; 為未開獎時佔位資料，輪播不需要出現。
  */
 export const useGetLastYearNominees = defineStore('getLastYearAlbums', () => {
-  async function getYearData(awards) {
+  async function getYearData(awards, isPreviousYear = false) {
+    let yearQuery = isPreviousYear ? `SELECT MAX(year) - 1` : `SELECT MAX(year)`;
     const sql = `
     SELECT DISTINCT * FROM shortlist 
     WHERE year = (
-        SELECT MAX(year) 
+        ${yearQuery}
         FROM shortlist
     )
     AND awards = '${awards}'
