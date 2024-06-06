@@ -180,22 +180,24 @@ function handleAddToLocalStorage(id) {
           </ol>
         </nav>
         <div class="flex justify-end gap-2">
+          <!-- 獲獎列表按鈕 -->
+
           <button
             v-if="!store.state.UnsearchedState && !store.state.Searching"
             @click="store.backWonList()"
             type="button"
-            class="p-3 text-gray-900 bg-gradient-to-r from-red-200 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm text-center"
+            class="p-3 text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center"
           >
             回獲獎列表
           </button>
-
+          <!-- 年份排序按鈕 -->
           <button
             v-if="store.state.SearchedFound"
             @click="reverseArray()"
             type="button"
-            class="flex items-center justify-center p-3 text-gray-900 bg-gradient-to-r from-yellow-200 to-red-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm text-center"
+            class="flex items-center justify-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center"
           >
-            <span class="mr-1">年份</span>
+            <span class="mr-1 font-black">年份排序</span>
             <svg
               id="filterArrow"
               xmlns="http://www.w3.org/2000/svg"
