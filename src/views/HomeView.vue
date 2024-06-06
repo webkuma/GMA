@@ -138,7 +138,7 @@ onUnmounted(() => {
             <button
               @click="updateSelectedYear(lastYear)"
               type="button"
-              class="mt-12 text-white bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:focus:ring-yellow-800 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 mb-2"
+              class="mt-12 text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-yellow-800 rounded-lg text-base px-5 py-3 text-center me-2 mb-2"
             >
               查看最新名單
             </button>
@@ -247,13 +247,14 @@ onUnmounted(() => {
         </div>
       </div>
 
+      <!-- 最新提名 -->
       <div class="h-auto w-full grid grid-cols-1 sm:grid-cols-4 sm:py-12">
         <div class="col-span-1 flex flex-col items-center justify-center px-2">
           <h2 class="text-4xl text-[#f4e0b2] font-black pt-4">{{ lastYear }} 最新提名</h2>
-          <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片可查看詳細資料</h3>
+          <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
         </div>
         <div class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-l-3xl p-16">
-          <div class="grid grid-cols-1 sm:grid-cols-2 place-items-center place-content-center">
+          <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
             <div>
               <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
               <div class="h-[230px] w-[250px]">
@@ -330,13 +331,14 @@ onUnmounted(() => {
         </div>
       </div>
 
+      <!-- 去年提名 -->
       <div class="h-auto w-full grid grid-cols-1 sm:grid-cols-4 justify-end sm:py-12 mt-16">
         <div class="col-span-1 flex flex-col items-center justify-center px-2 sm:order-last">
           <h2 class="text-4xl text-[#f4e0b2] font-black pt-4">{{ lastYear - 1 }} 提名</h2>
-          <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片可查看詳細資料</h3>
+          <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
         </div>
         <div class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-r-3xl p-16">
-          <div class="grid grid-cols-1 sm:grid-cols-2 place-items-center place-content-center">
+          <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
             <div>
               <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
               <div class="h-[230px] w-[250px]">
@@ -412,7 +414,6 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-
     </div>
   </main>
 </template>
