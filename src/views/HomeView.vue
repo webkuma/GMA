@@ -9,8 +9,6 @@ import { useGetYearDataStore } from '../stores/counter.js';
 import { useGetLastYearNominees } from '../stores/counter.js';
 const store = useGetYearDataStore();
 const getLastYearNomineesStore = useGetLastYearNominees();
-// gsap
-import { gsap } from 'gsap';
 // Splide
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
@@ -50,8 +48,6 @@ onMounted(async () => {
     lastYear.value = yearData.value[0]; // 最新年份
   }
   await nextTick();
-  gsap.set('#box', { y: 0 }); // 設置高度 讓他可以往下彈跳
-  gsapAnimations();
   getLatestNominees();
   getPreviousYearNominees();
 });
@@ -79,18 +75,6 @@ function carouselRouter(year, awards) {
 function updateSelectedYear(year) {
   router.push({ path: `/Awards/${year}` });
 }
-// GMA title gsap
-function gsapAnimations() {
-  anim.value = gsap.to(box, {
-    duration: 1,
-    ease: 'bounce.out',
-    y: 50,
-  });
-}
-// 離開頁面 銷毀 gsap
-onUnmounted(() => {
-  anim.value = null;
-});
 </script>
 
 <!-- sm:640 md:768 lg:1024 xl:1280 -->
@@ -117,8 +101,8 @@ onUnmounted(() => {
         <div class="absolute inset-0 col-span-1">
           <div class="absolute flex flex-col items-center justify-center gap-8 w-full h-full text-gray-50">
             <p
-              id="box"
-              class="pb-12 [&>span:nth-child(n)]:first-letter:tracking-wide text-2xl [&>span:nth-child(2)]:px-2 [&>span:nth-child(n)]:first-letter:text-[#eacd76] [&>span:nth-child(n)]:first-letter:text-4xl [&>span:nth-child(n)]:font-extrabold [&>span:nth-child(n)]:inline-block"
+              data-aos="fade-down"
+              class="[&>span:nth-child(n)]:first-letter:tracking-wide text-2xl [&>span:nth-child(2)]:px-2 [&>span:nth-child(n)]:first-letter:text-[#eacd76] [&>span:nth-child(n)]:first-letter:text-4xl [&>span:nth-child(n)]:font-extrabold [&>span:nth-child(n)]:inline-block"
             >
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
                 <span id="letter" class="inline-block letter text-3xl font-bold">G</span>
@@ -249,11 +233,16 @@ onUnmounted(() => {
 
       <!-- 最新提名 -->
       <div class="h-auto w-full grid grid-cols-1 sm:grid-cols-4 sm:py-12">
-        <div class="col-span-1 flex flex-col items-center justify-center px-2">
+        <div class="col-span-1 flex flex-col items-center justify-center px-2" data-aos="zoom-in">
           <h2 class="text-4xl text-[#f4e0b2] font-black pt-4">{{ lastYear }} 最新提名</h2>
           <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
         </div>
-        <div class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-l-3xl p-16">
+        <div
+          data-aos="flip-left"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="1000"
+          class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-l-3xl p-16"
+        >
           <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
             <div>
               <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
@@ -333,11 +322,16 @@ onUnmounted(() => {
 
       <!-- 去年提名 -->
       <div class="h-auto w-full grid grid-cols-1 sm:grid-cols-4 justify-end sm:py-12 mt-16">
-        <div class="col-span-1 flex flex-col items-center justify-center px-2 sm:order-last">
+        <div class="col-span-1 flex flex-col items-center justify-center px-2 sm:order-last" data-aos="zoom-in">
           <h2 class="text-4xl text-[#f4e0b2] font-black pt-4">{{ lastYear - 1 }} 提名</h2>
           <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
         </div>
-        <div class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-r-3xl p-16">
+        <div
+          data-aos="flip-left"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="1000"
+          class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-r-3xl p-16"
+        >
           <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
             <div>
               <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
