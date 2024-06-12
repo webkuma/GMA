@@ -23,7 +23,7 @@ function clearSearchInput() {
 <template>
   <div id="outer" class="relative block m-4 w-2/3 sm:w-1/3 md:w-1/2">
     <!-- 搜尋框本體 -->
-    <div>
+    <div class="max-w-md">
       <div class="relative">
         <!-- 放大鏡 icon -->
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -46,7 +46,7 @@ function clearSearchInput() {
         <input
           v-model="store.searchInput"
           @keyup.enter="handleSearch()"
-          class="placeholder:italic placeholder:text-slate-400 w-full border border-slate-300 rounded-md pl-9 shadow-sm block bg-white focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
+          class="placeholder:italic placeholder:text-slate-400 w-full border border-slate-300 rounded-full pl-9 shadow-sm block bg-white focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1"
           placeholder="歌手/歌曲/獎項"
           type="text"
           name="search"
