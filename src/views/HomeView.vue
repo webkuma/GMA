@@ -238,7 +238,7 @@ function updateSelectedYear(year) {
           <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
         </div>
         <div
-          data-aos="flip-left"
+          data-aos="fade-left"
           data-aos-easing="ease-out-cubic"
           data-aos-duration="1000"
           class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-l-3xl p-16"
@@ -327,7 +327,7 @@ function updateSelectedYear(year) {
           <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
         </div>
         <div
-          data-aos="flip-left"
+          data-aos="fade-right"
           data-aos-easing="ease-out-cubic"
           data-aos-duration="1000"
           class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-r-3xl p-16"
