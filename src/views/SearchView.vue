@@ -32,6 +32,7 @@ ORDER BY
     won DESC;
 `;
 const showScrollToTopBtn = ref();
+const isListView = ref(0); // 是否顯示 List (table)
 
 onMounted(async () => {
   await router.isReady();
@@ -87,6 +88,10 @@ function handleAddToLocalStorage(id) {
     store.updateYearsDataStorage(id, true);
   }
 }
+// 切換成列表模式 (table)
+function toggleListView() {
+  isListView.value = !isListView.value;
+}
 </script>
 <template>
   <main class="text-white">
@@ -126,9 +131,9 @@ function handleAddToLocalStorage(id) {
 
     <div v-else>
       <!-- Breadcrumbs, 年份排序  -->
-      <div class="p-4 flex sm:flex-row justify-between items-center">
+      <div class="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
         <nav
-          class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50"
+          class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 max-w-[150px]"
           aria-label="Breadcrumb"
         >
           <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -179,16 +184,31 @@ function handleAddToLocalStorage(id) {
             </li>
           </ol>
         </nav>
-        <div class="flex justify-end gap-2">
+        <div class="flex sm:justify-end gap-1 mt-2">
+          <!-- 列表模式按鈕 -->
+          <div class="flex">
+            <label
+              for="default-checkbox"
+              class="flex items-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 rounded-lg text-sm text-center"
+            >
+              <input
+                v-model="isListView"
+                id="default-checkbox"
+                type="checkbox"
+                class="w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                @click="toggleListView()"
+              />
+              <span class="font-black">列表模式</span>
+            </label>
+          </div>
           <!-- 獲獎列表按鈕 -->
-
           <button
             v-if="!store.state.UnsearchedState && !store.state.Searching"
             @click="store.backWonList()"
             type="button"
             class="p-3 text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center"
           >
-            回獲獎列表
+            獲獎列表
           </button>
           <!-- 年份排序按鈕 -->
           <button
@@ -248,54 +268,121 @@ function handleAddToLocalStorage(id) {
 
       <!-- 有搜尋到時顯示相關資訊 -->
       <div v-if="store.state.SearchedFound">
-        <div v-for="yearObject in store.yearsData" :key="yearObject.year" class="text-xl text-yellow-50">
-          <!-- 年份 -->
-          <div class="mx-4">
-            <span class="pr-1 border-b-4 border-custom-gold text-2xl">{{ yearObject.year }}</span>
+        <!-- 如果有勾選列表模式顯示 -->
+        <div v-if="isListView">
+          <div v-for="yearObject in store.yearsData" :key="yearObject.year" class="text-base text-yellow-50">
+            <!-- 年份 -->
+            <div class="mx-4">
+              <span class="pr-1 border-b-4 border-custom-gold text-2xl">{{ yearObject.year }}</span>
+            </div>
+            <!-- table -->
+            <div class="px-4 py-2 overflow-auto">
+              <table class="table table-hover overflow-x-scroll whitespace-nowrap">
+                <thead>
+                  <tr class="[&>*]:font-semibold">
+                    <th class="rounded-ss-md w-10">收藏</th>
+                    <th>獲獎</th>
+                    <th>歌手</th>
+                    <th>作品</th>
+                    <th class="rounded-se-md">獎項</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in yearObject.data" :key="index">
+                    <td>
+                      <svg
+                        @click="handleAddToLocalStorage(item.id)"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1"
+                        stroke="currentColor"
+                        class="w-6 h-6 cursor-pointer stroke-red-500"
+                        :class="[item.isStoraged ? 'fill-red-500 ' : ' fill-white']"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                        />
+                      </svg>
+                    </td>
+                    <td>
+                      <span v-if="item.won" class="text-base font-semibold">得獎</span>
+                      <span v-else class="text-base">入圍</span>
+                    </td>
+                    <td class="text-base font-normal cursor-pointer" @click="store.setSearchWord(item.nominee)">
+                      {{ item.nominee }}
+                    </td>
+                    <td class="text-base font-normal">{{ item.work }}</td>
+                    <td
+                      colspan="4"
+                      class="text-base font-normal cursor-pointer"
+                      @click="store.setSearchWord(item.awards)"
+                    >
+                      {{ item.awards }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <!-- 獎項外層 grid 排版 -->
-          <div class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <!-- 獎項內層 flex 排版 -->
-            <div
-              v-for="(item, index) in yearObject.data"
-              :key="index"
-              class="relative flex shadow-custom-inner shadow-yellow-500 mx-2 mt-4 p-4 border rounded-lg"
-              :class="{ 'bg-[#F5E8C7]': item.won, 'bg-gray-200 ': !item.won }"
-            >
-              <div class="flex items-center justify-end mr-4">
-                <svg
-                  @click="handleAddToLocalStorage(item.id)"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1"
-                  stroke="currentColor"
-                  class="w-6 h-6 cursor-pointer stroke-red-500"
-                  :class="[item.isStoraged ? 'fill-red-500 ' : ' fill-gray-200']"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
-              </div>
-              <img v-lazy="item.url" class="mr-4 w-20 h-20 sm:w-32 sm:h-32 rounded-lg aspect-square" alt="album pic" />
-              <div class="flex flex-col justify-evenly pl-2">
-                <div>
-                  <span
-                    class="text-base sm:text-xl font-semibold text-gray-700 cursor-pointer"
-                    @click="store.setSearchWord(item.nominee)"
-                    >{{ item.nominee }}</span
+        </div>
+        <!-- 預設顯示這個 -->
+        <div v-else>
+          <div v-for="yearObject in store.yearsData" :key="yearObject.year" class="text-xl text-yellow-50">
+            <!-- 年份 -->
+            <div class="mx-4">
+              <span class="pr-1 border-b-4 border-custom-gold text-2xl">{{ yearObject.year }}</span>
+            </div>
+            <!-- 獎項外層 grid 排版 -->
+            <div class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <!-- 獎項內層 flex 排版 -->
+              <div
+                v-for="(item, index) in yearObject.data"
+                :key="index"
+                class="relative flex shadow-custom-inner shadow-yellow-500 mx-2 mt-4 p-4 border rounded-lg"
+                :class="{ 'bg-[#F5E8C7]': item.won, 'bg-gray-200 ': !item.won }"
+              >
+                <div class="flex items-center justify-end mr-4">
+                  <svg
+                    @click="handleAddToLocalStorage(item.id)"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1"
+                    stroke="currentColor"
+                    class="w-6 h-6 cursor-pointer stroke-red-500"
+                    :class="[item.isStoraged ? 'fill-red-500 ' : ' fill-gray-200']"
                   >
-                  <span class="text-base sm:text-xl font-semibold text-gray-700">／ {{ item.work }}</span>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                    />
+                  </svg>
                 </div>
-                <p
-                  @click="store.setSearchWord(item.awards)"
-                  class="text-base font-semibold text-gray-500 cursor-pointer"
-                >
-                  {{ item.awards }}
-                </p>
+                <img
+                  v-lazy="item.url"
+                  class="mr-4 w-20 h-20 sm:w-32 sm:h-32 rounded-lg aspect-square"
+                  alt="album pic"
+                />
+                <div class="flex flex-col justify-evenly pl-2">
+                  <div>
+                    <span
+                      class="text-base sm:text-xl font-semibold text-gray-700 cursor-pointer"
+                      @click="store.setSearchWord(item.nominee)"
+                      >{{ item.nominee }}</span
+                    >
+                    <span class="text-base sm:text-xl font-semibold text-gray-700">／ {{ item.work }}</span>
+                  </div>
+                  <p
+                    @click="store.setSearchWord(item.awards)"
+                    class="text-base font-semibold text-gray-500 cursor-pointer"
+                  >
+                    {{ item.awards }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
