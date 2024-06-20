@@ -79,7 +79,7 @@ function updateSelectedYear(year) {
 
 <!-- sm:640 md:768 lg:1024 xl:1280 -->
 <template>
-  <main class="text-white">
+  <main class="text-white overflow-x-hidden">
     <!-- loading -->
     <div v-if="isLoading === 1" class="absolute w-full h-full bg-[#202020] bg-opacity-90">
       <div class="flex items-center justify-center h-full">
@@ -105,16 +105,13 @@ function updateSelectedYear(year) {
               class="[&>span:nth-child(n)]:first-letter:tracking-wide text-2xl [&>span:nth-child(2)]:px-2 [&>span:nth-child(n)]:first-letter:text-[#eacd76] [&>span:nth-child(n)]:first-letter:text-4xl [&>span:nth-child(n)]:font-extrabold [&>span:nth-child(n)]:inline-block"
             >
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                <span id="letter" class="inline-block letter text-3xl font-bold">G</span>
-                <span>olden</span>
+                Golden
               </span>
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                <span id="letter" class="inline-block text-3xl font-bold">M</span>
-                <span>elody</span>
+                Melody
               </span>
               <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                <span id="letter" class="inline-block text-3xl font-bold">A</span>
-                <span>wards</span>
+                Awards
               </span>
             </p>
             <p class="text-2xl md:text-3xl font-medium text-[#f4e0b2] tracking-wide">Discover and Explore the Music</p>
