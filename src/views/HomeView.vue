@@ -92,7 +92,7 @@ function updateSelectedYear(year) {
       <div class="grid relative shadow-sm shadow-gray-100">
         <img
           :src="bannerImageUrl"
-          class="relative w-full min-h-[calc(100vh_-_150px)] h-auto object-cover bg-black bg-opacity-60"
+          class="relative w-full min-h-[calc(100vh_-_64px)] h-auto object-cover bg-black bg-opacity-60"
           alt="Banner Image"
         />
         <div class="absolute inset-0 bg-black opacity-50"></div>
