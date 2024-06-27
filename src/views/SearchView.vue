@@ -132,6 +132,7 @@ function toggleListView() {
     <div v-else>
       <!-- Breadcrumbs, 年份排序  -->
       <div class="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <!-- Breadcrumbs -->
         <nav
           class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 max-w-[150px]"
           aria-label="Breadcrumb"
@@ -186,7 +187,7 @@ function toggleListView() {
         </nav>
         <div class="flex sm:justify-end gap-1 mt-2">
           <!-- 列表模式按鈕 -->
-          <div class="flex">
+          <div v-if="!store.state.UnsearchedState" class="flex">
             <label
               for="default-checkbox"
               class="flex items-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 rounded-lg text-sm text-center"
@@ -239,10 +240,10 @@ function toggleListView() {
       <div v-if="store.state.UnsearchedState">
         <!-- title -->
         <div class="mx-4">
-          <span class="border-b-4 border-custom-gold text-2xl">2010～2023 年獲獎次數排行 </span>
+          <span class="border-b-4 border-custom-gold text-2xl">2010～2024 年獲獎次數排行 </span>
         </div>
         <!-- 獎項外層 grid 排版 -->
-        <div class="p-4 text-xl text-yellow-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div class="px-4 text-xl text-yellow-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
           <!-- 獎項內容 flex 排版 sm:640 md:768 lg:1024 xl:1280 -->
           <div
             v-for="(item, index) in mountedWonList"
@@ -272,7 +273,7 @@ function toggleListView() {
         <div v-if="isListView">
           <div v-for="yearObject in store.yearsData" :key="yearObject.year" class="text-base text-yellow-50">
             <!-- 年份 -->
-            <div class="mx-4">
+            <div class="mx-4 mb-2">
               <span class="pr-1 border-b-4 border-custom-gold text-2xl">{{ yearObject.year }}</span>
             </div>
             <!-- table -->
