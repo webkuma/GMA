@@ -14,16 +14,6 @@ import '@splidejs/vue-splide/css';
 
 const yearData = ref();
 const isLoading = ref(1);
-
-const bannerImageUrl = ref();
-const LoadImg = () => {
-  const img = new Image();
-  img.src =
-    'https://images.unsplash.com/photo-1587731556938-38755b4803a6?q=80&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=1599&h=600';
-  img.onload = () => {
-    bannerImageUrl.value = img.src;
-  };
-};
 const lastYear = ref(); // 取得資料庫的最新年份
 // 取得最新年份的資料(輪播用)
 const femaleSingerNominees = ref();
@@ -37,7 +27,6 @@ const previousYearFemaleSingerNominees = ref();
 const previousYearMaleSingerNominees = ref();
 
 onMounted(async () => {
-  LoadImg();
   // yearData = undefined，去 store.getYearData 拿資料
   if (!yearData.value) {
     await store.getYearData();
@@ -89,8 +78,8 @@ function updateSelectedYear(year) {
       <!-- bg img -->
       <div class="grid relative shadow-sm shadow-gray-100">
         <img
-          :src="bannerImageUrl"
-          class="relative w-full min-h-[calc(100vh_-_64px)] h-auto object-cover bg-black bg-opacity-60"
+          src="@/assets/bg.jfif"
+          class="relative w-full min-h-[calc(100vh_-_64px)] h-[calc(100vh_-_64px)]  object-cover bg-black bg-opacity-60"
           alt="Banner Image"
         />
         <div class="absolute inset-0 bg-black opacity-50"></div>
