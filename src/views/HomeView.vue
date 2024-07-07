@@ -61,7 +61,7 @@ async function getPreviousYearNominees() {
 function carouselRouter(year, awards) {
   router.push({ path: `/Awards/${year}/${awards}` });
 }
-// 查看最新名單跳轉
+// 查看最新名單後跳轉
 function updateSelectedYear(year) {
   router.push({ path: `/Awards/${year}` });
 }
@@ -180,36 +180,6 @@ function updateSelectedYear(year) {
             </div>
           </div>
         </div> -->
-      </div>
-
-      <!-- years block -->
-      <div class="p-4" v-show="0">
-        <!-- the years block Outer, click btn to /awards -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pb-2">
-          <!-- year block Inner -->
-          <div v-for="year in yearData" :key="year" class="flex justify-center mt-6">
-            <button
-              @click="updateSelectedYear(year)"
-              class="p-4 flex items-center rounded-md bg-[#F5E8C7] border border-yellow-500 space-x-1 hover:bg-amber-400 hover:border-white hover:border"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 stroke-[#05436C]"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0"
-                />
-              </svg>
-              <span class="inline-block font-bold text-lg text-gray-900">{{ year }} 年</span>
-            </button>
-          </div>
-        </div>
       </div>
 
       <!-- 最新提名 -->
