@@ -12,9 +12,9 @@ const getLastYearNomineesStore = useGetLastYearNominees();
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
-const yearData = ref();
+const yearData = ref(); // 取得所有年分
+const lastYear = ref(); // 放最新年份
 const isLoading = ref(1);
-const lastYear = ref(); // 取得資料庫的最新年份
 // 取得最新年份的資料(輪播用)
 const femaleSingerNominees = ref();
 const maleSingerNominees = ref();
@@ -27,18 +27,21 @@ const previousYearFemaleSingerNominees = ref();
 const previousYearMaleSingerNominees = ref();
 
 onMounted(async () => {
-  // yearData = undefined，去 store.getYearData 拿資料
+  await fetchYearDataFromPinia();
+  await nextTick();
+  getLatestNominees();
+  getPreviousYearNominees();
+});
+
+// if(!yearData)，從 pinia 取得全部的年份
+async function fetchYearDataFromPinia() {
   if (!yearData.value) {
     await store.getYearData();
     yearData.value = store.yearData;
     isLoading.value = store.isLoading;
     lastYear.value = yearData.value[0]; // 最新年份
   }
-  await nextTick();
-  getLatestNominees();
-  getPreviousYearNominees();
-});
-
+}
 // 取得最新年份的資料(輪播用)
 async function getLatestNominees() {
   topSongNominees.value = await getLastYearNomineesStore.getYearData('年度歌曲獎');
@@ -79,7 +82,7 @@ function updateSelectedYear(year) {
       <div class="grid relative shadow-sm shadow-gray-100">
         <img
           src="@/assets/bg.jfif"
-          class="relative w-full min-h-[calc(100vh_-_64px)] h-[calc(100vh_-_64px)]  object-cover bg-black bg-opacity-60"
+          class="relative w-full min-h-[calc(100vh_-_64px)] h-[calc(100vh_-_64px)] object-cover bg-black bg-opacity-60"
           alt="Banner Image"
         />
         <div class="absolute inset-0 bg-black opacity-50"></div>
