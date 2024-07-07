@@ -1,15 +1,14 @@
 <script setup>
-import { onUnmounted, onMounted, ref, nextTick } from 'vue';
+import { onMounted, ref, nextTick } from 'vue';
 import Loading from '../components/Loading.vue';
 // router
 import { useRouter } from 'vue-router';
 const router = useRouter();
 // pinia
-import { useGetYearDataStore } from '../stores/counter.js';
-import { useGetLastYearNominees } from '../stores/counter.js';
+import { useGetYearDataStore, useGetLastYearNominees } from '../stores/counter.js';
 const store = useGetYearDataStore();
 const getLastYearNomineesStore = useGetLastYearNominees();
-// Splide
+// Splide 引入輪播套件
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
@@ -36,8 +35,7 @@ const previousYearTopSongNominees = ref();
 const previousYearNewArtistNominees = ref();
 const previousYearFemaleSingerNominees = ref();
 const previousYearMaleSingerNominees = ref();
-// 動畫用
-const anim = ref();
+
 onMounted(async () => {
   LoadImg();
   // yearData = undefined，去 store.getYearData 拿資料
@@ -104,15 +102,9 @@ function updateSelectedYear(year) {
               data-aos="fade-down"
               class="[&>span:nth-child(n)]:first-letter:tracking-wide text-2xl [&>span:nth-child(2)]:px-2 [&>span:nth-child(n)]:first-letter:text-[#eacd76] [&>span:nth-child(n)]:first-letter:text-4xl [&>span:nth-child(n)]:font-extrabold [&>span:nth-child(n)]:inline-block"
             >
-              <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                Golden
-              </span>
-              <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                Melody
-              </span>
-              <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold">
-                Awards
-              </span>
+              <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold"> Golden </span>
+              <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold"> Melody </span>
+              <span class="text-[#f4e0b2] text-2xl md:text-3xl font-semibold"> Awards </span>
             </p>
             <p class="text-2xl md:text-3xl font-medium text-[#f4e0b2] tracking-wide">Discover and Explore the Music</p>
             <p class="text-2xl md:text-3xl font-medium text-[#f4e0b2] tracking-wide">The Artists, Awards, and Works</p>
