@@ -171,18 +171,21 @@ export const useSearchStore = defineStore('search', () => {
   }
   
   /**
-  * 更新 awards 頁面中的年份資料
+  * 根據收藏或取消收藏的操作，更新搜尋/收藏頁面中資料的收藏狀態(icon)
+  * 如果有搜尋關鍵字時，在收藏頁按下取消 if 就會成立，若沒有關鍵字就不會執行，但因為下次再執行會更新狀態也不會有顯示問題
   * @param {number} id - 要更新的資料的唯一識別符
   * @param {boolean} idStatus - true 表示收藏(+icon class)，false 表示移除(-icon class)
-  */
+  */ 
   function updateYearsDataStorage(id, idStatus){
-    yearsData.value.forEach(element => {
-      element.data.forEach(data => {
-        if(data.id == id){
-          data.isStoraged = idStatus
-        }
+    if(yearsData.value){
+      yearsData.value.forEach(element => {
+        element.data.forEach(data => {
+          if(data.id == id){
+            data.isStoraged = idStatus;
+          }
+        });
       });
-    });
+    }
   }
 
   // 捲動回頂端
