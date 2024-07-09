@@ -4,44 +4,34 @@ import { useRouter, RouterLink } from 'vue-router';
 import { useSearchStore } from '../stores/counter.js';
 const store = useSearchStore();
 import Loading from '../components/Loading.vue';
-import initSqlJs from 'sql.js';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { fetchShortlistByIds } from '../db/Sqlite.js';
 
 const isLoading = ref(1);
 const router = useRouter();
-const getDB = ref();
 const favoriteData = ref();
-const favoriteStorageKeys = ref();
-const emptyFavoriteData = ref();
 
 onMounted(async () => {
   isLoading.value = 1;
   await router.isReady();
-  getSelectedYear();
+  loadFavoriteData();
 });
 
-async function initDatabase() {
-  const sqlPromise = await initSqlJs({
-    locateFile: (file) => `https://sql.js.org/dist/${file}`,
-  });
-  const dataPromise = fetch('/backend/music.db').then((res) => res.arrayBuffer());
-  const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
-  const db = new SQL.Database(new Uint8Array(buf));
-  getDB.value = db;
-  return db;
-}
-
-// 用 Object.keys(localStorage) 的 ID 查詢+顯示
-async function getSelectedYear() {
-  favoriteStorageKeys.value = Object.keys(localStorage)
+/** 根據 localStorage 的資料去資料庫獲取資料
+ * 1. 過濾出所有以 'favoriteStorage-' 開頭的值並提取數字 ID
+ * 2. fetchShortlistByIds - 根據提取的 ID 查詢資料庫
+ * localStorage：favoriteStorage-41, favoriteStorage-47, favoriteStorage-126 ...
+ */
+async function loadFavoriteData() {
+  // console.log(localStorage);
+  let favoriteStorageKeys = Object.keys(localStorage)
     .filter((key) => key.startsWith('favoriteStorage-'))
     .map((key) => parseInt(key.replace('favoriteStorage-', ''), 10));
+  // console.log(favoriteStorageKeys);
 
-  const db = await initDatabase();
-  const result = db.exec(
-    `SELECT DISTINCT * FROM shortlist WHERE id IN (${favoriteStorageKeys.value.join(', ')}) ORDER BY year DESC`,
-  );
+  const result = await fetchShortlistByIds(favoriteStorageKeys);
+
   if (result[0]) {
     favoriteData.value = result[0].values.map((data) => ({
       id: data[0],
@@ -51,40 +41,34 @@ async function getSelectedYear() {
       year: data[4],
       won: data[5],
       url: data[6],
-      isStoraged: localStorage.getItem(`favoriteStorage-${data[0]}`) ? true : false,
     }));
-    isLoading.value = 0;
+    // console.log(favoriteData.value);
   } else {
-    emptyFavoriteData.value = true;
-    isLoading.value = 0;
+    favoriteData.value = null;
   }
+  isLoading.value = 0;
 }
 // 移除收藏歌曲操作
 function handleRemoveLocalStorage(id) {
   favoriteData.value.forEach((element) => {
-    if (element.id == id) {
+    if (element.id === id) {
       toast.success('已從收藏移除', {
         theme: 'dark',
         autoClose: 1000,
         transition: 'zoom',
         position: toast.POSITION.TOP_RIGHT,
       });
-      element.isStoraged = false;
       localStorage.removeItem(`favoriteStorage-${id}`);
+      loadFavoriteData();
       store.updateYearsDataStorage(id, false);
       getIsStoragedLength();
+      return; // 移除後即可離開迴圈
     }
   });
 }
 // 計算收藏歌曲數量
 function getIsStoragedLength() {
-  let length = 0;
-  if (favoriteData.value) {
-    favoriteData.value.forEach((element) => {
-      element.isStoraged ? length++ : '';
-    });
-  }
-  return length;
+  return favoriteData.value ? favoriteData.value.length : 0;
 }
 </script>
 
@@ -161,12 +145,12 @@ function getIsStoragedLength() {
       </div>
 
       <!-- 收藏的歌曲 -->
-      <div class="mx-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="mx-6 mb-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div
           v-for="(item, index) in favoriteData"
           :key="index"
           class="flex shadow-custom-inner shadow-yellow-500 mt-4 p-4 border rounded-lg"
-          :class="{ 'bg-[#F5E8C7]': item.won, 'bg-gray-200 ': !item.won, hidden: !item.isStoraged }"
+          :class="{ 'bg-[#F5E8C7]': item.won, 'bg-gray-200 ': !item.won }"
         >
           <div class="flex items-center justify-end mr-4">
             <svg
@@ -188,7 +172,7 @@ function getIsStoragedLength() {
           </div>
           <img v-lazy="item.url" class="mr-4 w-20 h-20 sm:w-32 sm:h-32 rounded-lg aspect-square" alt="" />
           <div class="flex flex-col justify-evenly pl-2">
-            <div class="">
+            <div>
               <span class="text-base sm:text-xl font-semibold text-gray-700">{{ item.nominee }}</span>
               <span class="text-base sm:text-xl font-semibold text-gray-700">／ {{ item.work }}</span>
             </div>
