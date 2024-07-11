@@ -13,7 +13,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@splidejs/splide": "^4.1.4",
+    "@splidejs/splide-extension-auto-scroll": "^0.5.3",
+    "@splidejs/vue-splide": "^0.6.12",
+    "aos": "^2.3.4",
     "axios": "^1.4.0",
+    "bootstrap": "^5.3.3",
     "cli-table": "^0.3.11",
     "express": "^4.18.2",
     "gsap": "^3.12.5",
@@ -22,10 +27,11 @@
     "sql.js": "^1.9.0",
     "sqlite3": "^5.1.6",
     "sweetalert2": "^11.7.12",
-    "vue": "^3.3.2",
+    "vue": "^3.4.27",
     "vue-instantsearch": "^4.13.5",
     "vue-lazyload": "^3.0.0",
-    "vue-router": "^4.2.0"
+    "vue-router": "^4.2.0",
+    "vue3-toastify": "^0.2.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
