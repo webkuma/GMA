@@ -68,6 +68,7 @@
       Year
       <input type="text" class="py-2 px-4 border border-gray-300 rounded" v-model="newYear">
       <button class="p-2 ml-1 rounded-lg border border-gray-400" @click="addYear">add</button>
+      未開獎的預設格式 尚未開獎／尚未開獎／https://i.kfs.io/article5_cover/global/11614984v1/fit/800x420.jpg
     </label>
 
     <div class="grid grid-cols-3 gap-2 p-4">
@@ -213,19 +214,22 @@
         async showAlert(awards) {
           this.awards = awards
           let inputValue = ''
+          let textareaValue = ''
           // 這個是顯示資料的 
           const res = await fetch(`/api/shortlist/${this.nowChoose}/${awards}`)
           const json = await res.json()
           this.getData = json
           console.log(json);
           json.forEach(item => {
-            inputValue += `<p class='m-2 text-xl font-bold'> ${item.nominee} ／ ${item.work} ／ ${item.url}<p>`;
+            inputValue += `<span class='m-2 text-xl font-bold'> ${item.nominee}／${item.work}／${item.url}<span><br>`;
+            textareaValue += `${item.nominee}／${item.work}／${item.url} \n`;
           });
           Swal.fire({
             title: this.nowChoose + awards,
             width: 1080,
             heightAuto: true,
             input: "textarea",
+            inputValue: textareaValue,
             color: "rgb(206 145 0)",
             background: "url(https://png.pngtree.com/png-clipart/20230817/original/pngtree-vertical-stripes-background-in-abstract-white-and-gray-geometric-pattern-vector-png-image_10462619.png)",
             html: inputValue,
