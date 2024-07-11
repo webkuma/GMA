@@ -16,7 +16,12 @@ const router = createRouter({
     {
       path: '/Awards/:year',
       name: 'Awards',
-      component: () => import('../views/AwardsView.vue')
+      component: () => import('../views/AwardsView.vue'),
+    },
+    {
+      path: '/Awards/:year/:awards',
+      name: 'AwardsDetail',
+      component: () => import('../views/AwardsDetailView.vue'),
     },
     {
       path: '/Search',
