@@ -120,7 +120,7 @@ export const useSearchStore = defineStore('search', () => {
         scrollToTop();
       }
 
-      console.log(yearsData.value);
+      // console.log(yearsData.value);
       return Promise.resolve();
     });
   }
@@ -240,9 +240,9 @@ export const useGetYearDataStore = defineStore('getYearData', () => {
   const isLoading = ref();
   async function getYearData() {
     const init = useInitDatabaseStore();
-    const db = await init.initDatabase() ;
+    const db = await init.initDatabase();
     const result = db.exec(sql);
-    console.log(result[0].values);
+    // console.log(result[0].values);
     yearData.value = result[0].values.map((item) => item[0]);
     isLoading.value = yearData.value ? 0 : 1;
   }
