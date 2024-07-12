@@ -73,3 +73,15 @@ export async function fetchShortlistAwardsData(year) {
   );
   return res;
 }
+
+/* src\views\AwardsDetailView.vue 的子組件(AwardsDetail.vue) 
+ * 例如取得：『2024/最佳華語專輯獎』所有入圍該年份+獎項的資訊
+*/
+export async function fetchShortlistAwardsDetailData(year, awards) {
+  const db = await initDatabase();
+  const res = db.exec(
+    `select * from shortlist where year = ${year} and awards = "${awards}"`
+  );
+  return res;
+}
+
