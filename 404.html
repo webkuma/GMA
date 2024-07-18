@@ -6,16 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 Not Found</title>
   <script>
-    var pathSegmentsToKeep = 0;
+    (function () {
+      // 定義保留的路徑段數
+      var pathSegmentsToKeep = 2; // 保留兩個路徑段（Awards 和 2024）
 
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+      // 取得當前的 URL 物件
+      var l = window.location;
+
+      // 重組 URL
+      var newUrl =
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        '/GMA/' +  // 固定的部分，代表主要目錄
+        l.pathname.split('/').slice(1, 1 + pathSegmentsToKeep).join('/') + // 保留的路徑段
+        '/' +  // 加上斜線
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') + // 剩餘的路徑段
+        (l.search ? '?' + l.search.slice(1) : '') + // 查詢參數
+        l.hash; // 哈希部分
+
+      // 使用 history.replaceState 方法來替換當前的 URL
+      history.replaceState(null, null, newUrl);
+    })();
     // (function () {
     //   window.location.href = 'https://webkuma.github.io/GMA/';
     // })();
