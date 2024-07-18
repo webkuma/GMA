@@ -83,7 +83,7 @@ onMounted(async () => {
 
     <!-- main content -->
     <div>
-      <div class="flex justify-between p-4">
+      <div class="flex flex-col lg:flex-row gap-4 justify-between p-4">
         <!-- 導航列 -->
         <div class="flex justify-between items-center">
           <nav
