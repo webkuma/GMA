@@ -7,24 +7,9 @@
   <title>404 Not Found</title>
   <script>
     (function () {
-      // 定義保留的路徑段數
-      var pathSegmentsToKeep = 2; // 保留兩個路徑段（Awards 和 2024）
-
-      // 取得當前的 URL 物件
-      var l = window.location;
-
-      // 重組 URL
-      var newUrl =
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        // '/GMA/' +  // 固定的部分，代表主要目錄
-        l.pathname.split('/').slice(1, 1 + pathSegmentsToKeep).join('/') + // 保留的路徑段
-        '/' +  // 加上斜線
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') + // 剩餘的路徑段
-        (l.search ? '?' + l.search.slice(1) : '') + // 查詢參數
-        l.hash; // 哈希部分
-
-      // 使用 history.replaceState 方法來替換當前的 URL
-      history.replaceState(null, null, newUrl);
+      var currentPath = window.location.pathname; // 取得當前的路徑，例如 '/GMA/Awards/2024'
+      // 使用 pushState() 添加新的歷史紀錄，但不會觸發新的請求
+      history.pushState(null, null, currentPath);
     })();
     // (function () {
     //   window.location.href = 'https://webkuma.github.io/GMA/';
