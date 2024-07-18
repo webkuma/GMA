@@ -63,7 +63,7 @@ const hideThisCanvas = () => {
           <ul class="flex flex-col text-base text-white">
             <li
               class="cursor-pointer m-2 p-2 leading-10 hover:rounded hover:bg-gray-500 flex flex-row items-center justify-evenly"
-              @click="navigateToPage('Home')"
+              @click="navigateToPage('')"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
