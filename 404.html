@@ -15,7 +15,7 @@
       // 如果 pathname 不是根目錄 '/'
       if (pathname !== '/') {
         // 使用 history.pushState 將使用者導向當前的 pathname
-        window.history.replaceState(null, null, pathname);
+        window.history.replaceState(null, null, href);
         // console.log(l.pathname.slice(0, -1) + decoded + l.hash)
       } else {
         window.location.href = 'https://webkuma.github.io/GMA/';
