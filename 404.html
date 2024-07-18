@@ -6,21 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 Not Found</title>
   <script>
-    (function () {
-      // 獲取當前的 pathname
-      let pathname = window.location.pathname;
-      let href = window.location.href;
-      let l = window.location;
+    var pathSegmentsToKeep = 0;
 
-      // 如果 pathname 不是根目錄 '/'
-      if (pathname !== '/') {
-        // 使用 history.pushState 將使用者導向當前的 pathname
-        window.history.replaceState(null, null, href);
-        // console.log(l.pathname.slice(0, -1) + decoded + l.hash)
-      } else {
-        window.location.href = 'https://webkuma.github.io/GMA/';
-      }
-    })();
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
     // (function () {
     //   window.location.href = 'https://webkuma.github.io/GMA/';
     // })();
