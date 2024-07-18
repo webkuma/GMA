@@ -7,8 +7,20 @@
   <title>404 Not Found</title>
   <script>
     (function () {
-      window.location.href = 'https://webkuma.github.io/GMA/';
+      // 獲取當前的 pathname
+      var pathname = window.location.pathname;
+
+      // 如果 pathname 不是根目錄 '/'
+      if (pathname !== '/') {
+        // 使用 history.pushState 將使用者導向當前的 pathname
+        history.pushState(null, null, pathname);
+      } else {
+        window.location.href = 'https://webkuma.github.io/GMA/';
+      }
     })();
+    // (function () {
+    //   window.location.href = 'https://webkuma.github.io/GMA/';
+    // })();
   </script>
 </head>
 
