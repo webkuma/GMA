@@ -300,3 +300,68 @@ export const useGetWonListStore = defineStore('GetWonList', () => {
   }
   return { mountedWonList, getWonListData }
 })
+// 取得 kkbox token 
+export const useGetKkboxTokenStore = defineStore('getKkboxToken', () => {
+  const token = ref({
+    access_token: '',
+    expires_in: '',
+    token_type: '',
+  });
+
+  const getKkboxToken = async () => {
+    try {
+      const response = await fetch('https://tprdzhsf2g.execute-api.ap-southeast-2.amazonaws.com/default/kkbox-token', {
+        method: 'GET',
+      });
+      const data = await response.json();
+      token.value = data
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    return token.value;
+  };
+
+  const hasValidToken = () => {
+    return !!token.value?.access_token && !!token.value?.expires_in;
+  };
+
+  return { getKkboxToken, hasValidToken };
+});
+// 取得 歌曲 ID 試聽的 iframe 要用
+export const useGetKkboxSongIdStore = defineStore('getKkboxSongId', () => {
+  // 傳入 1. 查詢的歌曲名稱(+歌手) 2. toekn 
+  // return 歌曲ID 
+  async function getSongId(searchKeyword, searchType, token) {
+    console.log(searchKeyword);
+    const config = {
+      method: 'GET',
+      url: 'https://api.kkbox.com/v1.1/search',
+      params: {
+        q: searchKeyword,
+        type: searchType,
+        territory: 'TW',
+        offset: 0,
+        limit: 50,
+      },
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    try {
+      const response = await axios(config);
+      const res = response.data;
+      if(searchType==='track'){
+        return res.tracks.data[0].id;
+      }else if(searchType==='album'){
+        console.log(response.data.albums.data[0].id)
+        return response.data.albums.data[0].id
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  return { getSongId };
+});
