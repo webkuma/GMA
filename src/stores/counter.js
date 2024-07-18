@@ -2,6 +2,7 @@ import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import initSqlJs from 'sql.js';
 import axios from 'axios';
+const path = process.env.NODE_ENV === 'production' ? '/GMA' : ''
 
 /** 將 SQLite 返回的数据格式转换为对象数组。
  * 
@@ -95,7 +96,7 @@ export const useSearchStore = defineStore('search', () => {
     const sqlPromise = initSqlJs({
       locateFile: (file) => `https://sql.js.org/dist/${file}`,
     });
-    const dataPromise = fetch('/backend/music.db').then((res) => res.arrayBuffer());
+    const dataPromise = fetch(`${path}/music.db`).then((res) => res.arrayBuffer());
   
     return Promise.all([sqlPromise, dataPromise]).then(([SQL, buf]) => {
       const db = new SQL.Database(new Uint8Array(buf));
@@ -209,7 +210,7 @@ export const useInitDatabaseStore = defineStore('initDatabase', () => {
       const sqlPromise = await initSqlJs({
         locateFile: (file) => `https://sql.js.org/dist/${file}`,
       });
-      const dataPromise = fetch('/backend/music.db').then((res) => {
+      const dataPromise = fetch(`${path}/music.db`).then((res) => {
         if (!res.ok) {
           throw new Error('Failed to fetch database file.');
         }

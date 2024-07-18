@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
+const path = process.env.NODE_ENV === 'production' ? '/GMA/' : ''
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(path),
+  // history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/home',

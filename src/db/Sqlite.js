@@ -1,4 +1,6 @@
 import initSqlJs from 'sql.js';
+const path = process.env.NODE_ENV === 'production' ? '/GMA' : ''
+
 // 初始化 Sqlite 
 let cachedDB = null;
 async function initDatabase() {
@@ -10,7 +12,7 @@ async function initDatabase() {
     const sqlPromise = await initSqlJs({
       locateFile: (file) => `https://sql.js.org/dist/${file}`,
     });
-    const dataPromise = fetch('/backend/music.db').then((res) => {
+    const dataPromise = fetch(`${path}/music.db`).then((res) => {
       if (!res.ok) {
         throw new Error('Failed to fetch database file.');
       }

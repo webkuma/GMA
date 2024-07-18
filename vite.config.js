@@ -16,8 +16,7 @@ export default defineConfig({
   },
   // AI++
   build: {
-    base: '/Projects/', // 添加基本路径
+    base: process.env.NODE_ENV === 'production' ? '/GMA/' : '',
     assetsDir: 'assets', // 修改资源文件输出目录
-
   }
 })
