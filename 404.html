@@ -8,12 +8,13 @@
   <script>
     (function () {
       // 獲取當前的 pathname
-      var pathname = window.location.pathname;
+      let pathname = window.location.pathname;
+      let href = window.location.href;
 
       // 如果 pathname 不是根目錄 '/'
       if (pathname !== '/') {
         // 使用 history.pushState 將使用者導向當前的 pathname
-        history.pushState(null, null, pathname);
+        history.pushState(null, null, href);
       } else {
         window.location.href = 'https://webkuma.github.io/GMA/';
       }
