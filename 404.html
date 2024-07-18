@@ -16,7 +16,7 @@
       // 重組 URL
       var newUrl =
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        '/GMA/' +  // 固定的部分，代表主要目錄
+        // '/GMA/' +  // 固定的部分，代表主要目錄
         l.pathname.split('/').slice(1, 1 + pathSegmentsToKeep).join('/') + // 保留的路徑段
         '/' +  // 加上斜線
         l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') + // 剩餘的路徑段
