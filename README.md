@@ -4,7 +4,7 @@
 
 網站資料建置使用了 Node.js 和 Express 作為後端服務，並使用 SQLite 作為資料庫。
 
-## 👀 Live demo: [https://webkuma.github.io/GMA/](https://webkuma.github.io/GMA/)
+## 👀 Live demo [https://webkuma.github.io/GMA/](https://webkuma.github.io/GMA/)
 
 ## ✨ 功能特點
 - **🏠 首頁**： 提供近兩年最新入圍的輪播資訊，點擊可前往查看詳細資訊。
@@ -14,23 +14,31 @@
 - **📑 列表和圖片模式**：在搜尋頁面支援在不同的顯示模式（表格或圖片）之間切換。
 - **📅 獎項頁**：可以選擇年份以顯示當年的入圍資訊，並可選擇獎項進入詳細頁面，包含試聽功能和切換年份顯示詳細資訊。
 
+
+<table><tr><td>
+    <img src="https://github.com/user-attachments/assets/b7ae6f42-bcdd-40f9-a2b8-736f6c794d9c" />
+</td></tr></table>
+<table><tr><td>
+    <img src="https://github.com/user-attachments/assets/90a770f0-b934-42d1-b040-ba95ff265743" />
+</td></tr></table>
+
 ## 🛠 技能
 
 - **前端**：
-  - Vue 3：用於構建整個前端界面和組件管理。
-  - Vue Router：進行前端路由管理。
-  - vue-lazyload：用於搜尋頁面圖片懶加載。
-  - Tailwind CSS：用於快速構建和設計 UI 元素。
-  - Vue3 Toastify：用於通知和消息提示功能。
-  - Pinia：狀態管理。
-  - Axios：Axios KKBOX API。
-  - AOS：視差滾動套件。
-  - Splide.js：輪播套件。
-  - mitt：用於兄弟組件傳遞參數。
+  - **Vue 3**：用於構建整個前端界面和組件管理。
+  - **Vue Router**：進行前端路由管理。
+  - **vue-lazyload**：用於搜尋頁面圖片懶加載。
+  - **Tailwind CSS**：用於快速構建和設計 UI 元素。
+  - **Vue3 Toastify**：用於通知和消息提示功能。
+  - **Pinia**：狀態管理。
+  - **Axios**：Axios KKBOX API。
+  - **AOS**：視差滾動套件。
+  - **Splide.js**：輪播套件。
+  - **mitt**：用於兄弟組件傳遞參數。
 
 - **後端**：
-  - Node.js + express：後端環境和簡單的 API 服務。
-  - SQLite：輕量級資料庫用於本地資料存儲。
+  - **Node.js + express**：後端環境和簡單的 API 服務。
+  - **SQLite**：輕量級資料庫用於本地資料存儲。
 
 ## 🚀 安裝與運行
 
@@ -74,3 +82,4 @@ src/
 ├── stores/               # 狀態管理（Pinia）
 ├── db/                   # 資料庫（SQLite）
 ```
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=webkuma&hide_progress=true)
