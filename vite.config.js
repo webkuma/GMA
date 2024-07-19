@@ -1,5 +1,3 @@
-import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -17,6 +15,6 @@ export default defineConfig({
   // AI++
   build: {
     base: process.env.NODE_ENV === 'production' ? '/GMA/' : '',
-    assetsDir: 'assets', // 修改资源文件输出目录
+    // assetsDir: 'assets', // 修改资源文件输出目录
   }
 })
