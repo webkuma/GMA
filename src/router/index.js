@@ -31,6 +31,16 @@ const router = createRouter({
       component: () => import('../views/FavoriteView.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/Login.vue')
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/Admin.vue')
+    },
+    {
     path: '/404',
     name: '404',
     component: HomeView
