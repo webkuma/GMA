@@ -6,7 +6,19 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const email = ref();
 const password = ref();
+const isSignInVerify = ref(0);
+onMounted(async () => {
+  isSignIn();
+});
 
+// 登入
+async function isSignIn() {
+  const verifyRouter = await verifySignIn();
+  router.push({ path: `${verifyRouter}` });
+  if (verifyRouter === "/login") {
+    isSignInVerify.value = 1;
+  }
+}
 async function signInWithEmail() {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
@@ -19,7 +31,7 @@ async function signInWithEmail() {
 </script>
 
 <template>
-  <section class="dark:bg-gray-900">
+  <section v-if="isSignInVerify" class="dark:bg-gray-900">
     <div
       class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <div
