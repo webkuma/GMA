@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import { Offcanvas } from "bootstrap";
 import emitter from "@/components/utils/emitter.js";
-import { fetchShortlistAwardsData } from "@/db/Sqlite.js";
+import { fetchShortlistAwardsData } from "@/lib/frontendQuery.js";
 
 const router = useRouter();
 const routerParamsYear = ref();
@@ -31,8 +31,8 @@ emitter.on("yearChange", (year) => {
  */
 async function getYearData(year) {
   const res = await fetchShortlistAwardsData(year);
-  if (res.length) {
-    awardsData.value = res[0].values;
+  if (res) {
+    awardsData.value = res;
   } else {
     emitter.emit("isNotFoundYear", true);
   }
@@ -55,8 +55,8 @@ function updateSelectedYear(awards) {
       @change="updateSelectedYear($event.target.value)"
       v-model="routerParamsAwards"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-2">
-      <option :value="item[0]" v-for="item in awardsData" :key="item.id">
-        {{ item[0] }}
+      <option :value="item.awards" v-for="item in awardsData" :key="item.id">
+        {{ item.awards }}
       </option>
     </select>
   </section>
@@ -72,13 +72,13 @@ function updateSelectedYear(awards) {
         class="relative w-32 h-32 flex items-center justify-center bg-custom-gold rounded-md cursor-pointer m-4"
         v-for="item in awardsData"
         :key="item.id"
-        @click="updateSelectedYear(item[0])">
+        @click="updateSelectedYear(item.awards)">
         <span
           class="absolute inset-0 bg-black rounded-md opacity-50"
           aria-hidden="true"></span>
-        <span class="absolute font-bold">{{ item[0] }}</span>
+        <span class="absolute font-bold">{{ item.awards }}</span>
         <img
-          :src="item[1]"
+          :src="item.url"
           class="p-1 rounded-xl w-32 h-32 aspect-square"
           alt="awards img" />
       </div>

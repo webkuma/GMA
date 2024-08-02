@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { fetchShortlistYear } from "@/db/Sqlite.js";
+import { fetchShortlistYear } from "@/lib/frontendQuery.js";
 import emitter from "@/components/utils/emitter.js";
 
 const router = useRouter();
@@ -21,7 +21,7 @@ onMounted(async () => {
  */
 async function getYearSelected() {
   const result = await fetchShortlistYear();
-  yearData.value = result[0].values.map((item) => item[0]);
+  yearData.value = result.map((item) => item.year);
   selectedYear.value = router.currentRoute.value.params["year"];
   emitter.emit("yearChange", selectedYear.value);
 }

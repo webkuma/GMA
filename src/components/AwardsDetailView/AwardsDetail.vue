@@ -5,7 +5,7 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { Offcanvas } from "bootstrap";
 import emitter from "@/components/utils/emitter.js";
-import { fetchShortlistAwardsDetailData } from "@/db/Sqlite.js";
+import { fetchShortlistAwardsDetailData } from "@/lib/frontendQuery.js";
 
 import {
   useGetKkboxTokenStore,
@@ -43,9 +43,11 @@ onMounted(async () => {
   token.value = await getKkboxTokenSotre.getKkboxToken();
 });
 
+// 監聽下拉選單 @change
 emitter.on("yearChange", (year) => {
   getAwardsData(year);
 });
+// 監聽左側 @click -> 獎項
 emitter.on("updateSelectedYear", ({ year, awards }) => {
   getAwardsData(year, awards);
 });
@@ -58,8 +60,9 @@ async function getAwardsData(year = null, awards = null) {
     routerParamsYear.value,
     routerParamsAwards.value
   );
-  if (res.length) {
-    awardsDetail.value = res[0].values;
+  if (res) {
+    awardsDetail.value = res;
+    console.log(awardsDetail.value);
   }
 }
 
@@ -155,36 +158,36 @@ function deleteAlbum(song) {
     <div
       class="hover:bg-slate-700 flex justify-between rounded-md m-2"
       v-for="item in awardsDetail"
-      :key="item[0]">
+      :key="item.id">
       <!-- 顯示歌曲/歌手 -->
       <div class="flex">
         <img
-          :src="item[6]"
+          :src="item.url"
           class="row-span-2 p-2 rounded-xl w-20 h-20 aspect-square"
           alt="awards img" />
         <div
-          v-if="item[5]"
+          v-if="item.won"
           class="flex flex-col justify-center text-yellow-200">
-          <span>{{ item[3] }}</span>
-          <span>{{ item[2] }}</span>
+          <span class="text-lg mb-1">{{ item.work }}</span>
+          <span>{{ item.nominee }}</span>
         </div>
         <div v-else class="flex flex-col justify-center">
-          <span>{{ item[3] }}</span>
-          <span>{{ item[2] }}</span>
+          <span class="text-lg mb-1">{{ item.work }}</span>
+          <span>{{ item.nominee }}</span>
         </div>
       </div>
       <!-- 試聽按鈕 -->
       <div v-if="token" class="flex items-center justify-center">
         <button
           v-if="
-            item[1] === '年度歌曲獎' ||
-            item[1] === '最佳作曲人獎' ||
-            item[1] === '最佳作詞人獎' ||
-            item[1] === '最佳單曲製作人獎'
+            item.awards === '年度歌曲獎' ||
+            item.awards === '最佳作曲人獎' ||
+            item.awards === '最佳作詞人獎' ||
+            item.awards === '最佳單曲製作人獎'
           "
           class="py-2 px-4"
           type="button"
-          @click="audition(item[3], item[2], item[1])">
+          @click="audition(item.work, item.nominee, item.awards)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -208,7 +211,7 @@ function deleteAlbum(song) {
           data-bs-target="#demo"
           class="py-2 px-4"
           type="button"
-          @click="audition(item[3], item[2], item[1])">
+          @click="audition(item.work, item.nominee, item.awards)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
