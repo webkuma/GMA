@@ -1,4 +1,4 @@
-import { fetchShortlistYear } from "@/lib/frontendQuery.js";
+import { fetchShortlistYear, fetchShortlist } from "@/lib/frontendQuery.js";
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import initSqlJs from 'sql.js';
@@ -258,20 +258,33 @@ export const useGetYearDataStore = defineStore('getYearData', () => {
  * @remarks AND nominee != '尚未開獎'`; 為未開獎時佔位資料，輪播不需要出現。
  */
 export const useGetLastYearNominees = defineStore('getLastYearAlbums', () => {
+  const latestYear = ref();
+  const previousYear = ref();
+
+  // 獲取最新年份和上一年份
+  async function getYear() {
+    try {
+      const res = await fetchShortlistYear();
+      previousYear.value = res[0]?.year ?? null;
+      latestYear.value = res[1]?.year ?? null;
+    } catch (error) {
+      console.error('Error fetching year data:', error);
+    }
+  }
+
   async function getYearData(awards, isPreviousYear = false) {
-    let yearQuery = isPreviousYear ? `SELECT MAX(year) - 1` : `SELECT MAX(year)`;
-    const sql = `
-    SELECT DISTINCT * FROM shortlist 
-    WHERE year = (
-        ${yearQuery}
-        FROM shortlist
-    )
-    AND awards = '${awards}'
-    AND nominee != '尚未開獎'`;
-    const init = useInitDatabaseStore();
-    const db = await init.initDatabase();
-    const result = db.exec(sql);
-    return mapSQLiteResultToObjects(result[0].columns, result[0].values);
+    if (!latestYear.value || !previousYear.value) {
+      await getYear();
+    }
+    const year = isPreviousYear ? latestYear.value : previousYear.value;
+    const data = { year, awards };
+    try {
+      const result = await fetchShortlist(data);
+      return result;
+    } catch (error) {
+      console.error('Error fetching year data:', error);
+      return;
+    }
   }
 
   return { getYearData }
