@@ -1,3 +1,4 @@
+import { fetchShortlistYear } from "@/lib/frontendQuery.js";
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import initSqlJs from 'sql.js';
@@ -236,15 +237,12 @@ export const useInitDatabaseStore = defineStore('initDatabase', () => {
  * @returns {Promise<Array<number>>} - 包含年份的數組。
  */
 export const useGetYearDataStore = defineStore('getYearData', () => {
-  const sql = "SELECT DISTINCT year FROM shortlist WHERE shortlist.won = 1 ORDER BY year DESC";
   const yearData = ref();
   const isLoading = ref();
   async function getYearData() {
-    const init = useInitDatabaseStore();
-    const db = await init.initDatabase();
-    const result = db.exec(sql);
-    // console.log(result[0].values);
-    yearData.value = result[0].values.map((item) => item[0]);
+    const result = await fetchShortlistYear();
+    yearData.value = result
+    // console.log(yearData.value);
     isLoading.value = yearData.value ? 0 : 1;
   }
 

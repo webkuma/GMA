@@ -18,8 +18,9 @@ onMounted(async () => {
 async function fetchYearDataFromPinia() {
   if (!yearData.value) {
     await store.getYearData();
-    yearData.value = store.yearData;
-    lastYear.value = yearData.value[0]; // 最新年份
+    yearData.value = store.yearData; // 全部年份
+    lastYear.value = yearData.value[0].year; // 最新年份
+    console.log(lastYear.value);
   }
 }
 
