@@ -6,7 +6,7 @@ const store = useSearchStore();
 import Loading from "../components/Loading.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { fetchShortlistByIds } from "../db/Sqlite.js";
+import { fetchShortlistByIds } from "@/lib/frontendQuery.js";
 
 const isLoading = ref(1);
 const router = useRouter();
@@ -31,18 +31,8 @@ async function loadFavoriteData() {
   // console.log(favoriteStorageKeys);
 
   const result = await fetchShortlistByIds(favoriteStorageKeys);
-
-  if (result[0]) {
-    favoriteData.value = result[0].values.map((data) => ({
-      id: data[0],
-      awards: data[1],
-      nominee: data[2],
-      work: data[3],
-      year: data[4],
-      won: data[5],
-      url: data[6],
-    }));
-    // console.log(favoriteData.value);
+  if (result) {
+    favoriteData.value = result;
   } else {
     favoriteData.value = null;
   }

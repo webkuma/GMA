@@ -62,3 +62,18 @@ export async function fetchShortlistAwardsDetailData(year, awards) {
   }
   return data;
 }
+
+// views/FavoriteView.vue 根據 localStorage 的資料去資料庫獲取資料
+// SELECT * FROM shortlist WHERE id IN (${parms.join(', ')})
+export async function fetchShortlistByIds(parms){
+  const { data, error } = await supabase
+    .from('shortlist')
+    .select('*')
+    .in('id', parms);
+
+  if (error) {
+    console.error('Error fetching shortlist data:', error);
+    throw error;
+  }
+  return data;
+}
