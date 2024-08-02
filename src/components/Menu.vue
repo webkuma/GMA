@@ -13,7 +13,7 @@ async function navigateToPage(page) {
     router.push({ path: `/${page}` });
     hideThisCanvas();
   } else {
-    router.push({ path: `/Awards/${storeYearData.yearData[0]}` });
+    router.push({ path: `/Awards/${storeYearData.yearData[0].year}` });
     hideThisCanvas();
   }
 }
