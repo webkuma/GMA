@@ -11,6 +11,19 @@ export async function fetchShortlistYear() {
   return data;
 }
 
+// src\views\AwardsView.vue 的子組件(YearAwardsData.vue) 取得該年份的獎項名稱、得獎作品圖片
+// SELECT DISTINCT id, awards, url FROM shortlist 
+// WHERE year = `${year}` AND shortlist.won = '1'
+export async function fetchShortlistAwardsData(parms) {
+  const { data, error } = await supabase
+    .from('shortlist')
+    .select('id, awards, url')
+    .eq('year', parms)
+    .eq('won', '1')
+
+  return data;
+}
+
 /**
  * 獲取特定年份和獎項的入圍名單
  * @param {string} params.year - 查詢的年份

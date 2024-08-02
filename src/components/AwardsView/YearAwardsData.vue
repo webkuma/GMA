@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { fetchShortlistAwardsData } from "@/db/Sqlite.js";
+import { fetchShortlistAwardsData } from "@/lib/frontendQuery.js";
 import { useRouter } from "vue-router";
 import emitter from "@/components/utils/emitter.js";
 
+// 監聽子組件下拉選單的value -> getYearData(year) 拿這個年份的資料
 emitter.on("yearChange", (year) => {
   selectedYear.value = year;
   getYearData(year);
@@ -22,8 +23,8 @@ onMounted(async () => {
  */
 async function getYearData(year) {
   const res = await fetchShortlistAwardsData(year);
-  if (res.length) {
-    awardsData.value = res[0].values;
+  if (res) {
+    awardsData.value = res;
   } else {
     emitter.emit("isNotFoundYear", true);
   }
@@ -35,7 +36,6 @@ function updateSelectedYear(awards) {
 </script>
 
 <template>
-
   <!-- awards  -->
   <div
     class="place-items-center place-content-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -43,13 +43,13 @@ function updateSelectedYear(awards) {
       class="relative w-60 h-60 flex items-center justify-center bg-custom-gold rounded-md cursor-pointer m-4"
       v-for="item in awardsData"
       :key="item.id"
-      @click="updateSelectedYear(item[0])">
+      @click="updateSelectedYear(item.awards)">
       <span
         class="absolute inset-0 bg-black rounded-md opacity-50"
         aria-hidden="true"></span>
-      <span class="absolute text-xl font-bold">{{ item[0] }}</span>
+      <span class="absolute text-xl font-bold">{{ item.awards }}</span>
       <img
-        :src="item[1]"
+        :src="item.url"
         class="p-2 rounded-xl w-60 h-60 aspect-square"
         alt="awards img" />
     </div>
