@@ -3,42 +3,25 @@ import { ref, onMounted } from 'vue';
 import Loading from '../components/Loading.vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { fetchWonList } from "@/lib/frontendQuery.js";
 
 // router
 import { RouterLink, useRouter } from 'vue-router';
 const router = useRouter();
 // pinia
 import { useSearchStore } from '../stores/counter.js';
-import { useGetWonListStore } from '../stores/counter.js';
-const storeGetWonList = useGetWonListStore();
 const store = useSearchStore();
 
 const mountedWonList = ref(); // 搜尋獲獎次數排行資料
 const isReverseArray = ref(false); // 反轉年份排序
-const sql = `
-SELECT
-    nominee AS "nominee",
-    MIN(url) AS "url",
-    COUNT(CASE WHEN won = 1 THEN 1 END) AS "won",
-    COUNT(*) AS "nomineeTime",
-    id
-FROM
-    shortlist
-GROUP BY
-    nominee
-HAVING
-    COUNT(CASE WHEN won = 1 THEN 1 END) > 0
-ORDER BY
-    won DESC;
-`;
 const showScrollToTopBtn = ref();
 const isListView = ref(0); // 是否顯示 List (table)
 
 onMounted(async () => {
   await router.isReady();
   if (!mountedWonList.value) {
-    await storeGetWonList.getWonListData(sql);
-    mountedWonList.value = storeGetWonList.mountedWonList;
+    const res = await fetchWonList();
+    mountedWonList.value = res;
   }
 });
 
@@ -254,7 +237,7 @@ function toggleListView() {
             <img v-lazy="item.url" class="w-24 h-24 rounded-lg aspect-square" alt="album" />
             <div class="flex flex-col justify-evenly pl-4">
               <p class="text-lg font-semibold text-gray-900">{{ item.nominee }}</p>
-              <p class="text-lg font-semibold text-gray-900">獲獎: {{ item.won }} / 提名: {{ item.nomineeTime }}</p>
+              <p class="text-lg font-semibold text-gray-900">獲獎: {{ item.won }} / 提名: {{ item.nomineetime }}</p>
             </div>
           </div>
         </div>

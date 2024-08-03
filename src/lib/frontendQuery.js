@@ -77,3 +77,21 @@ export async function fetchShortlistByIds(parms){
   }
   return data;
 }
+
+/* /search 獲獎次數排行資料
+ * view wonlist AS:
+ * SELECT nominee, MIN(url) AS "url", COUNT(CASE WHEN won = 1 THEN 1 END) AS "won", COUNT(*) AS "nomineeTime"
+ * FROM shortlist
+ * GROUP BY nominee
+ * HAVING COUNT(CASE WHEN won = 1 THEN 1 END) > 0
+ * ORDER BY won DESC;
+*/
+export async function fetchWonList(){
+  const { data, error } = await supabase.from("wonlist").select("*");
+
+  if (error) {
+    console.error('Error fetching shortlist wonlist:', error);
+    throw error;
+  }
+  return data;
+}

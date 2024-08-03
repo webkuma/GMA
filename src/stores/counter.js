@@ -290,27 +290,6 @@ export const useGetLastYearNominees = defineStore('getLastYearAlbums', () => {
   return { getYearData }
 })
 
-
-// SearchView 取得list的資料 
-export const useGetWonListStore = defineStore('GetWonList', () => {
-  const mountedWonList = ref()
-  async function getWonListData(query) {
-    const sql = query
-    const init = useInitDatabaseStore();
-    const db = await init.initDatabase() 
-    const result = db.exec(sql);
-    mountedWonList.value = result[0].values.map(element => {
-      return {
-        nominee: element[0],
-        url: element[1],
-        won: element[2],
-        nomineeTime: element[3],
-        id: element[4],
-      };
-    });
-  }
-  return { mountedWonList, getWonListData }
-})
 // 取得 kkbox token 
 export const useGetKkboxTokenStore = defineStore('getKkboxToken', () => {
   const token = ref({
