@@ -33,17 +33,6 @@ const mapSQLiteResultToObjects = (columns, values) => {
   });
 };
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const selected = ref('分類') // SearchBox 的下拉選單
-  const selectedYear = ref(''); // home 頁面的選取年份，用來傳到 awards/:year
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
-
-  return { count, selected, selectedYear, doubleCount, increment }
-})
 export const useMenuStore = defineStore('menu', () => {
   const isMaskClicked = ref(0);
   const counter = ref(0);
