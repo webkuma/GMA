@@ -261,7 +261,7 @@ function toggleListView() {
             </div>
             <!-- table -->
             <div class="px-4 py-2 overflow-auto">
-              <table class="table table-hover overflow-x-scroll whitespace-nowrap">
+              <table class="table table-striped table-hover overflow-x-scroll whitespace-nowrap">
                 <thead>
                   <tr class="[&>*]:font-semibold">
                     <th class="rounded-ss-md w-10">收藏</th>

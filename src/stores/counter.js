@@ -1,4 +1,4 @@
-import { fetchShortlistYear, fetchShortlist } from "@/lib/frontendQuery.js";
+import { fetchShortlistYear, fetchShortlist, searchShortlist } from "@/lib/frontendQuery.js";
 import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import initSqlJs from 'sql.js';
@@ -47,6 +47,7 @@ export const useMenuStore = defineStore('menu', () => {
   }
   return { isMaskClicked, counter, toggleMenuVisibility }
 })
+
 export const useSearchStore = defineStore('search', () => {
   const searchInput = ref(undefined); // 搜尋框 v-model
   const searchWord = ref(); // input 或 keyword 放這
@@ -81,19 +82,15 @@ export const useSearchStore = defineStore('search', () => {
     searchHandler();
   }
   // 主要的搜尋處理函數
-  function searchHandler() {
+  async function searchHandler() {
     // 步驟 1: 從資料庫中取得資料
-    const sqlPromise = initSqlJs({
-      locateFile: (file) => `https://sql.js.org/dist/${file}`,
-    });
-    const dataPromise = fetch(`${path}/music.db`).then((res) => res.arrayBuffer());
-  
-    return Promise.all([sqlPromise, dataPromise]).then(([SQL, buf]) => {
-      const db = new SQL.Database(new Uint8Array(buf));
-      result.value = db.exec(`select * from shortlist `);
+    result.value = await searchShortlist(searchWord.value);
+    storageMatchData.value = result.value;
+    console.log(result.value)
+      // result.value = db.exec(`select * from shortlist`);
 
       // 步驟 2: 根據 searchWord 搜尋匹配的資料
-      storageMatchData.value = getMatchingData(searchWord.value, result.value[0].values);
+      // storageMatchData.value = getMatchingData(searchWord.value, result.value[0].values);
 
       // 同時將 yearsData.value 設為 undefined，以確保沒有年份資料被顯示
       if (!storageMatchData.value.length) {
@@ -113,7 +110,6 @@ export const useSearchStore = defineStore('search', () => {
 
       // console.log(yearsData.value);
       return Promise.resolve();
-    });
   }
   
   // 根據 searchWord 過濾資料
@@ -130,25 +126,27 @@ export const useSearchStore = defineStore('search', () => {
   }
   
   // 將 storageMatchData 轉換為所需的格式
+  // 把格式變成 { year:2024, data:[...] }, { year:2023, data:[...] }
   function transformData(storageMatchData) {
     const transformedData = [];
     storageMatchData.forEach((data) => {
-      const year = data[4];
+      const year = data.year;
       let yearArray = transformedData.find((item) => item.year === year);
       if (!yearArray) {
         yearArray = { year: year, data: [] };
         transformedData.push(yearArray);
       }
       yearArray.data.push({
-        id: data[0],
-        awards: data[1],
-        nominee: data[2],
-        work: data[3],
-        year: data[4],
-        won: data[5],
-        url: data[6],
+        id: data.id,
+        awards: data.awards,
+        nominee: data.nominee,
+        work: data.work,
+        year: data.year,
+        won: data.won,
+        url: data.url,
         isStoraged: localStorage.getItem(`favoriteStorage-${data[0]}`) ? true : false,
       });
+      // console.log(transformedData)
     });
     return transformedData;
   }

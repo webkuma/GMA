@@ -95,3 +95,17 @@ export async function fetchWonList(){
   }
   return data;
 }
+
+// view_shortlist: select * from shortlist
+export async function searchShortlist(parms){
+  const { data, error } = await supabase
+    .from('shortlist')
+    .select('*')
+    .or(`work.eq.${parms},nominee.eq.${parms}`);
+
+  if (error) {
+    console.error('Error fetching shortlist wonlist:', error);
+    throw error;
+  }
+  return data;
+}
