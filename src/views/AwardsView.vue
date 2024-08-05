@@ -1,4 +1,5 @@
 <script setup>
+import loading from "@/components/Loading.vue";
 import { onMounted, ref } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import YearSelect from "@/components/AwardsView/YearSelect.vue";
@@ -54,7 +55,9 @@ onMounted(async () => {
 
     <!-- main content -->
     <div>
-      <div class="flex justify-between p-4">
+      <div v-show="!selectedYear"><loading /></div>
+
+      <div v-show="selectedYear" class="flex justify-between p-4">
         <!-- 導航列 -->
         <div class="flex justify-between items-center">
           <nav
