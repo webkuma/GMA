@@ -51,72 +51,88 @@ function carouselRouter(year, awards) {
     >
       <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
         <div>
-          <h3 class="text-center font-bold text-xl my-4">年度歌曲獎</h3>
+          <h3 class="text-center font-bold text-2xl my-4">年度歌曲獎</h3>
           <div class="h-[230px] w-[250px]">
-            <Splide :options="{ rewind: true, autoplay: true, type: loop }" aria-label="My Favorite Images">
-              <SplideSlide v-for="(item, index) in previousYearTopSongNominees" :key="item.id">
+            <Splide
+              :options="{ rewind: true, autoplay: true, type: loop }"
+              aria-label="My Favorite Images">
+              <SplideSlide v-for="item in previousYearTopSongNominees" :key="item.id">
                 <img
                   :src="item.url"
                   :alt="item.work"
-                  class="w-[150px] ml-12 rounded cursor-pointer"
-                  @click="carouselRouter(item.year, item.awards)"
-                />
-                <div class="flex flex-col items-center justify-center mt-4 mb-4">
-                  <h3>{{ item.nominee + ' ' + item.work }}</h3>
+                  class="w-[150px] ml-[50px] rounded cursor-pointer"
+                  @click="carouselRouter(item.year, item.awards)" />
+                <div
+                  class="flex flex-col items-center justify-center pt-2 pb-4">
+                  <h3 class="min-h-[45px] flex items-center font-semibold">
+                    {{ item.nominee + " " + item.work }}
+                  </h3>
                 </div>
               </SplideSlide>
             </Splide>
           </div>
         </div>
         <div>
-          <h3 class="text-center font-bold text-xl my-4">最佳新人獎</h3>
+          <h3 class="text-center font-bold text-2xl my-4">最佳新人獎</h3>
           <div class="h-[230px] w-[250px]">
-            <Splide :options="{ rewind: true, autoplay: true }" aria-label="My Favorite Images">
-              <SplideSlide v-for="(item, index) in previousYearNewArtistNominees" :key="item.id">
+            <Splide
+              :options="{ rewind: true, autoplay: true, type: loop }"
+              aria-label="My Favorite Images">
+              <SplideSlide v-for="item in previousYearNewArtistNominees" :key="item.id">
                 <img
                   :src="item.url"
                   :alt="item.work"
-                  class="w-[150px] ml-12 rounded cursor-pointer"
-                  @click="carouselRouter(item.year, item.awards)"
-                />
-                <div class="flex flex-col items-center justify-center mt-4 mb-4">
-                  <h3>{{ item.nominee + ' ' + item.work }}</h3>
+                  class="w-[150px] ml-[50px] rounded cursor-pointer"
+                  @click="carouselRouter(item.year, item.awards)" />
+                <div
+                  class="flex flex-col items-center justify-center pt-2 pb-4">
+                  <h3 class="min-h-[45px] flex items-center font-semibold">
+                    {{ item.nominee + " " + item.work }}
+                  </h3>
                 </div>
               </SplideSlide>
             </Splide>
           </div>
         </div>
         <div>
-          <h3 class="text-center font-bold text-xl my-4">最佳華語女歌手獎</h3>
+          <h3 class="text-center font-bold text-2xl my-4">最佳華語女歌手獎</h3>
           <div class="h-[230px] w-[250px]">
-            <Splide :options="{ rewind: true, autoplay: true }" aria-label="My Favorite Images">
-              <SplideSlide v-for="(item, index) in previousYearFemaleSingerNominees" :key="item.id">
+            <Splide
+              :options="{ rewind: true, autoplay: true, type: loop }"
+              aria-label="My Favorite Images">
+              <SplideSlide v-for="item in previousYearFemaleSingerNominees" :key="item.id">
                 <img
                   :src="item.url"
                   :alt="item.work"
-                  class="w-[150px] ml-12 rounded cursor-pointer"
-                  @click="carouselRouter(item.year, item.awards)"
-                />
-                <div class="flex flex-col items-center justify-center mt-4 mb-4">
-                  <h3>{{ item.nominee + ' ' + item.work }}</h3>
+                  class="w-[150px] ml-[50px] rounded cursor-pointer"
+                  @click="carouselRouter(item.year, item.awards)" />
+                <div
+                  class="flex flex-col items-center justify-center pt-2 pb-4">
+                  <h3 class="min-h-[45px] flex items-center font-semibold">
+                    {{ item.nominee + " " + item.work }}
+                  </h3>
                 </div>
               </SplideSlide>
             </Splide>
           </div>
         </div>
         <div>
-          <h3 class="text-center font-bold text-xl my-4">最佳華語男歌手獎</h3>
+          <h3 class="text-center font-bold text-2xl my-4">最佳華語男歌手獎</h3>
           <div class="h-[230px] w-[250px]">
-            <Splide :options="{ rewind: true, autoplay: true }" aria-label="My Favorite Images">
-              <SplideSlide v-for="(item, index) in previousYearMaleSingerNominees" :key="item.id">
+            <Splide
+              :options="{ rewind: true, autoplay: true, type: loop }"
+              aria-label="My Favorite Images">
+              <SplideSlide v-for="item in previousYearMaleSingerNominees" :key="item.id">
                 <img
                   :src="item.url"
                   :alt="item.work"
-                  class="w-[150px] ml-12 rounded cursor-pointer"
-                  @click="carouselRouter(item.year, item.awards)"
-                />
-                <div class="flex flex-col items-center justify-center mt-4 mb-4">
-                  <h3>{{ item.nominee + ' ' + item.work }}</h3>
+                  class="w-[150px] ml-[50px] rounded cursor-pointer"
+                  @click="carouselRouter(item.year, item.awards)" />
+                <div
+                  class="flex flex-col items-center justify-center pt-2 pb-4">
+                  <h3 class="min-h-[45px] flex items-center font-semibold">
+                    {{ item.nominee + " " + item.work }}
+                  </h3>
                 </div>
               </SplideSlide>
             </Splide>
