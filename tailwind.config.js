@@ -12,6 +12,8 @@ module.exports = {
       },
       colors: {
         'custom-gold': "#eacd76",
+        'main': "#ffbf00f3", // 主色
+        'accent': "#FFD785", // 副色
       },
       boxShadow: {
         // 水平, 垂直, 陰影模糊半徑, 陰影擴散半徑

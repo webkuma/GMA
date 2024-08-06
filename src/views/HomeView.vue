@@ -6,7 +6,7 @@ import Banner from '@/components/HomeView/Banner.vue';
 
 <!-- sm:640 md:768 lg:1024 xl:1280 -->
 <template>
-  <main class="text-white overflow-x-hidden">
+  <main class="overflow-x-hidden">
     <div>
       <!-- bg img -->
       <Banner></Banner>

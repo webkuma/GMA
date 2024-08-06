@@ -40,14 +40,14 @@ function carouselRouter(year, awards) {
   <!-- 去年提名 -->
   <div class="h-auto w-full grid grid-cols-1 sm:grid-cols-4 justify-end sm:py-12 mt-16">
     <div class="col-span-1 flex flex-col items-center justify-center px-2 sm:order-last" data-aos="zoom-in">
-      <h2 class="text-4xl text-[#f4e0b2] font-black pt-4">{{ lastYear }} 提名</h2>
-      <h3 class="text-xl text-[#f4e0b2] py-4">點選圖片查看詳細資料</h3>
+      <h2 class="text-4xl text-main font-black pt-4">{{ lastYear }} 提名</h2>
+      <h3 class="text-xl text-main py-4">點選圖片查看詳細資料</h3>
     </div>
     <div
       data-aos="fade-right"
       data-aos-easing="ease-out-cubic"
       data-aos-duration="1000"
-      class="col-span-1 sm:col-span-3 bg-yellow-600 text-[#fffccc] rounded-r-3xl p-16"
+      class="col-span-1 sm:col-span-3 bg-[#0D6EFD40] text-accent rounded-r-3xl p-16"
     >
       <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
         <div>

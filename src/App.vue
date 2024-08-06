@@ -20,7 +20,7 @@ import Menu from './components/Menu.vue';
           height="40"
         />
         <span class="text-white text-xl hidden sm:inline-block gap-2">
-          <span class="text-[#f4e0b2]">Golden Melody Awards </span>
+          <span class="text-accent">Golden Melody Awards </span>
         </span>
       </RouterLink>
       <!-- title -->
