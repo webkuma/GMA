@@ -1,4 +1,5 @@
 <script setup>
+import loading from "@/components/Loading.vue";
 import { onMounted, ref } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import emitter from "@/components/utils/emitter.js";
@@ -10,6 +11,7 @@ const router = useRouter();
 const isNotFoundYear = ref();
 const selectedYear = ref();
 const selectedAwards = ref();
+const isLoading = ref(false); // 年份載入完成=1
 
 // 監聽子組件 Awards；用以表示查無此年份
 emitter.on("isNotFoundYear", () => {
@@ -23,6 +25,7 @@ emitter.on("updateSelectedYear", ({ year, awards }) => {
 // 監聽子組件 YearSelect；當下拉選單更新就獲取年份
 emitter.on("yearChange", (year) => {
   selectedYear.value = year;
+  isLoading.value = true;
 });
 
 onMounted(async () => {
@@ -82,7 +85,8 @@ onMounted(async () => {
     </div> -->
 
     <!-- main content -->
-    <div>
+    <loading v-show="!isLoading" />
+    <div v-show="isLoading">
       <div class="flex flex-col lg:flex-row gap-4 justify-between p-4">
         <!-- 導航列 -->
         <div class="flex justify-between items-center">

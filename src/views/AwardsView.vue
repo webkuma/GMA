@@ -55,7 +55,7 @@ onMounted(async () => {
 
     <!-- main content -->
     <div>
-      <div v-show="!selectedYear"><loading /></div>
+      <loading v-show="!selectedYear" />
 
       <div v-show="selectedYear" class="flex justify-between p-4">
         <!-- 導航列 -->
