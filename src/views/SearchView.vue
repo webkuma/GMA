@@ -337,10 +337,10 @@ function toggleListView() {
               <div
                 v-for="(item, index) in yearObject.data"
                 :key="index"
-                class="relative flex shadow-custom-inner shadow-yellow-500 mx-2 mt-4 p-4 border rounded-lg"
+                class="relative flex mx-2 mt-4 p-4 border rounded-lg"
                 :class="{
-                  'bg-[#F5E8C7]': item.won,
-                  'bg-gray-200 ': !item.won,
+                  'bg-cg2 shadow-custom-inner shadow-yellow-500': item.won,
+                  'bg-slate-100': !item.won,
                 }">
                 <div class="flex items-center justify-end mr-4">
                   <svg
@@ -352,7 +352,7 @@ function toggleListView() {
                     stroke="currentColor"
                     class="w-6 h-6 cursor-pointer stroke-red-500"
                     :class="[
-                      item.isStoraged ? 'fill-red-500 ' : ' fill-gray-200',
+                      item.isStoraged ? 'fill-red-500 ' : ' fill-gray-100',
                     ]">
                     <path
                       stroke-linecap="round"
@@ -367,17 +367,20 @@ function toggleListView() {
                 <div class="flex flex-col justify-evenly pl-2">
                   <div>
                     <span
+                      :class="{ 'text-red-500': item.won }"
                       class="text-base sm:text-xl font-semibold text-gray-700 cursor-pointer"
-                      @click="store.setSearchWord(item.nominee)"
-                      >{{ item.nominee }}</span
-                    >
+                      @click="store.setSearchWord(item.nominee)">
+                      {{ item.nominee }}
+                    </span>
                     <span
-                      class="text-base sm:text-xl font-semibold text-gray-700"
-                      >／ {{ item.work }}</span
-                    >
+                      :class="{ 'text-red-500': item.won }"
+                      class="text-base sm:text-xl font-semibold text-gray-700">
+                      ／ {{ item.work }}
+                    </span>
                   </div>
                   <p
                     @click="store.setSearchWord(item.awards)"
+                    :class="{ 'text-red-500': item.won }"
                     class="text-base font-semibold text-gray-500 cursor-pointer">
                     {{ item.awards }}
                   </p>
