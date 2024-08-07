@@ -101,7 +101,7 @@ export async function searchShortlist(parms){
   const { data, error } = await supabase
     .from('shortlist')
     .select('*')
-    .or(`work.eq.${parms},nominee.eq.${parms}`);
+    .or(`work.eq.${parms}, nominee.eq.${parms}, awards.eq.${parms}`);
 
   if (error) {
     console.error('Error fetching shortlist wonlist:', error);
