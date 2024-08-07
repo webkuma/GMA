@@ -120,7 +120,7 @@ function deleteAlbum(song) {
 <template>
   <!-- 右側歌曲資訊 -->
   <section
-    class="w-full lg:w-1/2 flex flex-col bg-gray-600 bg-opacity-20 rounded">
+    class="w-full lg:w-1/2 flex flex-col border-1 border-cg3 bg-cg2 rounded">
     <!-- 獎項文字 + 試聽按鈕 -->
     <div class="flex flex-col">
       <div class="text-center mt-1">
@@ -132,7 +132,7 @@ function deleteAlbum(song) {
             routerParamsAwards !== '最佳作詞人獎' &&
             routerParamsAwards !== '最佳單曲製作人獎'
           "
-          class="text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-500 text-base p-3 text-center rounded-lg"
+          class="text-white font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-500 text-base p-3 text-center rounded-lg"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#demo">
@@ -140,7 +140,7 @@ function deleteAlbum(song) {
         </button>
       </div>
       <div class="text-center">
-        <h2 class="col-start-2 py-4 text-2xl font-bold text-yellow-200">
+        <h2 class="col-start-2 py-4 text-2xl font-bold text-black">
           {{ routerParamsAwards }}
         </h2>
       </div>
@@ -156,7 +156,7 @@ function deleteAlbum(song) {
     </div>
 
     <div
-      class="hover:bg-slate-700 flex justify-between rounded-md m-2"
+      class="hover:bg-slate-300 flex justify-between rounded-md m-2"
       v-for="item in awardsDetail"
       :key="item.id">
       <!-- 顯示歌曲/歌手 -->
@@ -165,15 +165,13 @@ function deleteAlbum(song) {
           :src="item.url"
           class="row-span-2 p-2 rounded-xl w-20 h-20 aspect-square"
           alt="awards img" />
-        <div
-          v-if="item.won"
-          class="flex flex-col justify-center text-yellow-200">
-          <span class="text-lg mb-1">{{ item.work }}</span>
-          <span>{{ item.nominee }}</span>
+        <div v-if="item.won" class="flex flex-col justify-center text-red-700">
+          <span class="text-lg mb-1 font-extrabold">{{ item.work }}</span>
+          <span class="font-extrabold">{{ item.nominee }}</span>
         </div>
-        <div v-else class="flex flex-col justify-center">
-          <span class="text-lg mb-1">{{ item.work }}</span>
-          <span>{{ item.nominee }}</span>
+        <div v-else class="flex flex-col justify-center text-black">
+          <span class="text-lg mb-1 font-semibold">{{ item.work }}</span>
+          <span class="font-semibold">{{ item.nominee }}</span>
         </div>
       </div>
       <!-- 試聽按鈕 -->
@@ -194,7 +192,7 @@ function deleteAlbum(song) {
             viewBox="0 0 24 24"
             stroke-width="1.0"
             stroke="currentColor"
-            class="w-8 h-8">
+            class="w-8 h-8 text-black">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -209,7 +207,7 @@ function deleteAlbum(song) {
           v-else
           data-bs-toggle="offcanvas"
           data-bs-target="#demo"
-          class="py-2 px-4"
+          class="py-2 px-4 text-black"
           type="button"
           @click="audition(item.work, item.nominee, item.awards)">
           <svg

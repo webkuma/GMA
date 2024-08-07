@@ -40,12 +40,12 @@ function updateSelectedYear(awards) {
   <div
     class="place-items-center place-content-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     <div
-      class="relative w-60 h-60 flex items-center justify-center bg-custom-gold rounded-md cursor-pointer m-4"
+      class="relative w-60 h-60 flex items-center justify-center bg-cg4 rounded-md cursor-pointer m-4"
       v-for="item in awardsData"
       :key="item.id"
       @click="updateSelectedYear(item.awards)">
       <span
-        class="absolute inset-0 bg-black rounded-md opacity-50"
+        class="absolute inset-2 bg-black opacity-10 rounded-md"
         aria-hidden="true"></span>
       <span class="absolute text-xl font-bold">{{ item.awards }}</span>
       <img

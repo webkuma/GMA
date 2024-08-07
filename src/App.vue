@@ -20,7 +20,7 @@ import Menu from './components/Menu.vue';
           height="40"
         />
         <span class="text-white text-xl hidden sm:inline-block gap-2">
-          <span class="text-accent">Golden Melody Awards </span>
+          <span class="text-[#EACD76]">Golden Melody Awards </span>
         </span>
       </RouterLink>
       <!-- title -->
@@ -36,9 +36,3 @@ import Menu from './components/Menu.vue';
   <RouterView />
   <MenuContent />
 </template>
-
-<style>
-body {
-  font-family: sans-serif, serif;
-}
-</style>

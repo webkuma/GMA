@@ -65,19 +65,13 @@ function getIsStoragedLength() {
 <template>
   <main class="text-white">
     <!-- Loading -->
-    <div
-      v-if="isLoading === 1"
-      class="absolute w-full h-full bg-[#202020] bg-opacity-90">
-      <div class="flex items-center justify-center h-full">
-        <Loading />
-      </div>
-    </div>
+    <Loading v-if="isLoading === 1" />
 
     <div v-else>
       <!-- 導航列 -->
       <div class="m-4 flex justify-between items-center">
         <nav
-          class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50"
+          class="flex justify-between items-center p-3 text-gray-700 border-1 border-cg3 rounded-lg bg-gray-50"
           aria-label="Breadcrumb">
           <ol
             class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -124,9 +118,9 @@ function getIsStoragedLength() {
         </nav>
       </div>
       <div class="m-4">
-        <span class="border-b-4 border-custom-gold">
-          <span class="text-2xl">已收藏的作品</span>
-          <span> ({{ getIsStoragedLength() }})</span>
+        <span class="border-b-2 border-cg4">
+          <span class="text-2xl font-extrabold text-cg5">已收藏的作品 </span>
+          <span class="text-cg5"> ({{ getIsStoragedLength() }})</span>
         </span>
       </div>
 
@@ -136,7 +130,7 @@ function getIsStoragedLength() {
           v-for="(item, index) in favoriteData"
           :key="index"
           class="flex shadow-custom-inner shadow-yellow-500 mt-4 p-4 border rounded-lg"
-          :class="{ 'bg-[#F5E8C7]': item.won, 'bg-gray-200 ': !item.won }">
+          :class="{ 'bg-cg2': item.won, 'bg-gray-200 ': !item.won }">
           <div class="flex items-center justify-end mr-4">
             <svg
               @click="handleRemoveLocalStorage(item.id)"
@@ -156,15 +150,15 @@ function getIsStoragedLength() {
           <img
             v-lazy="item.url"
             class="mr-4 w-20 h-20 sm:w-32 sm:h-32 rounded-lg aspect-square"
-            alt="" />
+            alt="favorite pic" />
           <div class="flex flex-col justify-evenly pl-2">
             <div>
-              <span class="text-base sm:text-xl font-semibold text-gray-700">{{
-                item.nominee
-              }}</span>
-              <span class="text-base sm:text-xl font-semibold text-gray-700"
-                >／ {{ item.work }}</span
-              >
+              <span class="text-base sm:text-xl font-semibold text-gray-700">
+                {{ item.nominee }}
+              </span>
+              <span class="text-base sm:text-xl font-semibold text-gray-700">
+                ／ {{ item.work }}
+              </span>
             </div>
             <p class="text-base font-semibold text-gray-500">
               {{ item.awards }}

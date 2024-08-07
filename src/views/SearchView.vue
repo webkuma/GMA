@@ -1,15 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import Loading from '../components/Loading.vue';
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { ref, onMounted } from "vue";
+import Loading from "../components/Loading.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { fetchWonList } from "@/lib/frontendQuery.js";
 
 // router
-import { RouterLink, useRouter } from 'vue-router';
+import { RouterLink, useRouter } from "vue-router";
 const router = useRouter();
 // pinia
-import { useSearchStore } from '../stores/counter.js';
+import { useSearchStore } from "../stores/counter.js";
 const store = useSearchStore();
 
 const mountedWonList = ref(); // 搜尋獲獎次數排行資料
@@ -39,35 +39,37 @@ function reverseArray() {
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
+    behavior: "smooth",
   });
 }
 // 監聽滾動，添加回到頂端按紐
-window.addEventListener('scroll', handleScroll);
+window.addEventListener("scroll", handleScroll);
 function handleScroll() {
   const scrollY = window.scrollY;
   showScrollToTopBtn.value = scrollY > 200 ? 1 : 0;
 }
 // @click 愛心 添加到 localstorage，反之移除
 function handleAddToLocalStorage(id) {
-  const isIdExist = localStorage.getItem(`favoriteStorage-${id}`) ? true : false;
+  const isIdExist = localStorage.getItem(`favoriteStorage-${id}`)
+    ? true
+    : false;
   if (isIdExist) {
-    toast.success('已從收藏移除', {
-      theme: 'dark',
+    toast.success("已從收藏移除", {
+      theme: "dark",
       autoClose: 1500,
-      transition: 'zoom',
+      transition: "zoom",
       position: toast.POSITION.TOP_RIGHT,
     });
     localStorage.removeItem(`favoriteStorage-${id}`);
     store.updateYearsDataStorage(id, false);
   } else {
-    toast.success('已添加至收藏', {
-      theme: 'dark',
+    toast.success("已添加至收藏", {
+      theme: "dark",
       autoClose: 1500,
-      transition: 'zoom',
+      transition: "zoom",
       position: toast.POSITION.TOP_RIGHT,
     });
-    localStorage.setItem(`favoriteStorage-${id}`, 'id');
+    localStorage.setItem(`favoriteStorage-${id}`, "id");
     store.updateYearsDataStorage(id, true);
   }
 }
@@ -77,17 +79,19 @@ function toggleListView() {
 }
 </script>
 <template>
-  <main class="text-white">
+  <main>
     <!-- 回到頂端 icon-fixed -->
-    <div v-if="showScrollToTopBtn" class="fixed right-5 bottom-5 z-50" @click="scrollToTop">
+    <div
+      v-if="showScrollToTopBtn"
+      class="fixed right-5 bottom-5 z-50"
+      @click="scrollToTop">
       <button
         type="button"
         data-te-ripple-init=""
         data-te-ripple-color="light"
         class="!fixed bottom-5 right-5 rounded-full bg-red-600 p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
         id="btn-back-to-top"
-        style=""
-      >
+        style="">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -95,48 +99,40 @@ function toggleListView() {
           class="h-4 w-4"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-        >
+          viewBox="0 0 448 512">
           <path
             fill="currentColor"
-            d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
-          ></path>
+            d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"></path>
         </svg>
       </button>
     </div>
 
     <!-- Loading -->
-    <div v-if="!mountedWonList || store.state.Searching" class="absolute w-full h-full bg-[#202020] bg-opacity-90">
-      <div class="flex items-center justify-center h-full">
-        <Loading />
-      </div>
-    </div>
+    <Loading v-if="!mountedWonList || store.state.Searching" />
 
     <div v-else>
       <!-- Breadcrumbs, 年份排序  -->
-      <div class="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
+      <div
+        class="p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
         <!-- Breadcrumbs -->
         <nav
-          class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 max-w-[150px]"
-          aria-label="Breadcrumb"
-        >
-          <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+          class="flex justify-between items-center p-3 text-gray-700 border-1 border-cg3 rounded-lg bg-gray-50 max-w-[150px]"
+          aria-label="Breadcrumb">
+          <ol
+            class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
               <RouterLink to="/" class="flex items-center">
                 <a
                   href="#"
-                  class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
-                >
+                  class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                   <svg
                     class="w-3 h-3 me-2"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
+                    viewBox="0 0 20 20">
                     <path
-                      d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"
-                    />
+                      d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                   </svg>
                   首頁
                 </a>
@@ -149,19 +145,16 @@ function toggleListView() {
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
-                  viewBox="0 0 6 10"
-                >
+                  viewBox="0 0 6 10">
                   <path
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="m1 9 4-4-4-4"
-                  />
+                    d="m1 9 4-4-4-4" />
                 </svg>
                 <a
-                  class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                >
+                  class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                   搜尋
                 </a>
               </div>
@@ -169,19 +162,17 @@ function toggleListView() {
           </ol>
         </nav>
         <div class="flex sm:justify-end gap-1 mt-2">
-          <!-- 列表模式按鈕 -->
-          <div v-if="!store.state.UnsearchedState" class="flex">
+          <!-- 列表模式按鈕，有搜尋到的狀態才顯示按鈕 -->
+          <div v-if="store.state.SearchedFound" class="flex">
             <label
               for="default-checkbox"
-              class="flex items-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 rounded-lg text-sm text-center"
-            >
+              class="flex items-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 rounded-lg text-sm text-center">
               <input
                 v-model="isListView"
                 id="default-checkbox"
                 type="checkbox"
                 class="w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                @click="toggleListView()"
-              />
+                @click="toggleListView()" />
               <span class="font-black">列表模式</span>
             </label>
           </div>
@@ -190,8 +181,7 @@ function toggleListView() {
             v-if="!store.state.UnsearchedState && !store.state.Searching"
             @click="store.backWonList()"
             type="button"
-            class="p-3 text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center"
-          >
+            class="p-3 text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center">
             獲獎列表
           </button>
           <!-- 年份排序按鈕 -->
@@ -199,8 +189,7 @@ function toggleListView() {
             v-if="store.state.SearchedFound"
             @click="reverseArray()"
             type="button"
-            class="flex items-center justify-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center"
-          >
+            class="flex items-center justify-center p-3 text-[#f4e0b2] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center">
             <span class="mr-1 font-black">年份排序</span>
             <svg
               id="filterArrow"
@@ -210,10 +199,12 @@ function toggleListView() {
               stroke-width="1.5"
               stroke="currentColor"
               class="w-4 h-4 transition-transform duration-500"
-              :class="[isReverseArray ? `rotate-0 ` : `rotate-180`]"
-            >
+              :class="[isReverseArray ? `rotate-0 ` : `rotate-180`]">
               >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.5 15.75l7.5-7.5 7.5 7.5" />
             </svg>
           </button>
         </div>
@@ -223,29 +214,40 @@ function toggleListView() {
       <div v-if="store.state.UnsearchedState">
         <!-- title -->
         <div class="mx-4">
-          <span class="border-b-4 border-custom-gold text-2xl">2010～2024 年獲獎次數排行 </span>
+          <span class="border-b-2 border-cg3 text-2xl font-extrabold text-cg5"
+            >2010～2024 年獲獎次數排行
+          </span>
         </div>
         <!-- 獎項外層 grid 排版 -->
-        <div class="px-4 text-xl text-yellow-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div
+          class="px-3 text-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
           <!-- 獎項內容 flex 排版 sm:640 md:768 lg:1024 xl:1280 -->
           <div
             v-for="(item, index) in mountedWonList"
             :key="index"
-            class="flex shadow-custom-inner shadow-yellow-500 sh mx-2 mt-5 p-4 rounded-lg bg-[#F5E8C7] hover:cursor-pointer"
-            @click="store.setSearchWord(item.nominee)"
-          >
-            <img v-lazy="item.url" class="w-24 h-24 rounded-lg aspect-square" alt="album" />
+            class="flex shadow-custom-inner shadow-yellow-500 sh mx-2 mt-5 p-4 rounded-lg bg-cg2 hover:cursor-pointer"
+            @click="store.setSearchWord(item.nominee)">
+            <img
+              v-lazy="item.url"
+              class="w-24 h-24 rounded-lg aspect-square"
+              alt="album" />
             <div class="flex flex-col justify-evenly pl-4">
-              <p class="text-lg font-semibold text-gray-900">{{ item.nominee }}</p>
-              <p class="text-lg font-semibold text-gray-900">獲獎: {{ item.won }} / 提名: {{ item.nomineetime }}</p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{ item.nominee }}
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                獲獎: {{ item.won }} / 提名: {{ item.nomineetime }}
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- 沒有搜尋到時顯示錯誤資訊 -->
-      <div v-if="store.state.SearchedNotFound" class="flex flex-col justify-center items-center">
-        <p class="text-6xl text-custom-gold">(='X'=)</p>
+      <div
+        v-if="store.state.SearchedNotFound"
+        class="flex flex-col justify-center items-center">
+        <p class="text-6xl text-cg4">(='X'=)</p>
         <p class="text-2xl m-4">找不到「{{ store.searchWord }}」</p>
         <p class="text-xl">請嘗試用不同關鍵字再搜尋一次。</p>
       </div>
@@ -254,14 +256,18 @@ function toggleListView() {
       <div v-if="store.state.SearchedFound">
         <!-- 如果有勾選列表模式顯示 -->
         <div v-if="isListView">
-          <div v-for="yearObject in store.yearsData" :key="yearObject.year" class="text-base text-yellow-50">
+          <div v-for="yearObject in store.yearsData" :key="yearObject.year">
             <!-- 年份 -->
             <div class="mx-4 mb-2">
-              <span class="pr-1 border-b-4 border-custom-gold text-2xl">{{ yearObject.year }}</span>
+              <span
+                class="pr-1 border-b-4 border-cg3 text-2xl font-extrabold text-cg5">
+                {{ yearObject.year }}
+              </span>
             </div>
             <!-- table -->
             <div class="px-4 py-2 overflow-auto">
-              <table class="table table-striped table-hover overflow-x-scroll whitespace-nowrap">
+              <table
+                class="table table-striped table-hover overflow-x-scroll whitespace-nowrap">
                 <thead>
                   <tr class="[&>*]:font-semibold">
                     <th class="rounded-ss-md w-10">收藏</th>
@@ -282,28 +288,31 @@ function toggleListView() {
                         stroke-width="1"
                         stroke="currentColor"
                         class="w-6 h-6 cursor-pointer stroke-red-500"
-                        :class="[item.isStoraged ? 'fill-red-500 ' : ' fill-white']"
-                      >
+                        :class="[
+                          item.isStoraged ? 'fill-red-500 ' : ' fill-white',
+                        ]">
                         <path
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                        />
+                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                       </svg>
                     </td>
                     <td>
-                      <span v-if="item.won" class="text-base font-semibold">得獎</span>
+                      <span v-if="item.won" class="text-base font-semibold"
+                        >得獎</span
+                      >
                       <span v-else class="text-base">入圍</span>
                     </td>
-                    <td class="text-base font-normal cursor-pointer" @click="store.setSearchWord(item.nominee)">
+                    <td
+                      class="text-base font-normal cursor-pointer"
+                      @click="store.setSearchWord(item.nominee)">
                       {{ item.nominee }}
                     </td>
                     <td class="text-base font-normal">{{ item.work }}</td>
                     <td
                       colspan="4"
                       class="text-base font-normal cursor-pointer"
-                      @click="store.setSearchWord(item.awards)"
-                    >
+                      @click="store.setSearchWord(item.awards)">
                       {{ item.awards }}
                     </td>
                   </tr>
@@ -314,20 +323,25 @@ function toggleListView() {
         </div>
         <!-- 預設顯示這個 -->
         <div v-else>
-          <div v-for="yearObject in store.yearsData" :key="yearObject.year" class="text-xl text-yellow-50">
+          <div v-for="yearObject in store.yearsData" :key="yearObject.year">
             <!-- 年份 -->
             <div class="mx-4">
-              <span class="pr-1 border-b-4 border-custom-gold text-2xl">{{ yearObject.year }}</span>
+              <span
+                class="pr-1 border-b-4 border-cg3 text-2xl font-extrabold text-cg5">
+                {{ yearObject.year }}
+              </span>
             </div>
             <!-- 獎項外層 grid 排版 -->
-            <div class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="p-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
               <!-- 獎項內層 flex 排版 -->
               <div
                 v-for="(item, index) in yearObject.data"
                 :key="index"
                 class="relative flex shadow-custom-inner shadow-yellow-500 mx-2 mt-4 p-4 border rounded-lg"
-                :class="{ 'bg-[#F5E8C7]': item.won, 'bg-gray-200 ': !item.won }"
-              >
+                :class="{
+                  'bg-[#F5E8C7]': item.won,
+                  'bg-gray-200 ': !item.won,
+                }">
                 <div class="flex items-center justify-end mr-4">
                   <svg
                     @click="handleAddToLocalStorage(item.id)"
@@ -337,20 +351,19 @@ function toggleListView() {
                     stroke-width="1"
                     stroke="currentColor"
                     class="w-6 h-6 cursor-pointer stroke-red-500"
-                    :class="[item.isStoraged ? 'fill-red-500 ' : ' fill-gray-200']"
-                  >
+                    :class="[
+                      item.isStoraged ? 'fill-red-500 ' : ' fill-gray-200',
+                    ]">
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                    />
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                   </svg>
                 </div>
                 <img
                   v-lazy="item.url"
                   class="mr-4 w-20 h-20 sm:w-32 sm:h-32 rounded-lg aspect-square"
-                  alt="album pic"
-                />
+                  alt="album pic" />
                 <div class="flex flex-col justify-evenly pl-2">
                   <div>
                     <span
@@ -358,12 +371,14 @@ function toggleListView() {
                       @click="store.setSearchWord(item.nominee)"
                       >{{ item.nominee }}</span
                     >
-                    <span class="text-base sm:text-xl font-semibold text-gray-700">／ {{ item.work }}</span>
+                    <span
+                      class="text-base sm:text-xl font-semibold text-gray-700"
+                      >／ {{ item.work }}</span
+                    >
                   </div>
                   <p
                     @click="store.setSearchWord(item.awards)"
-                    class="text-base font-semibold text-gray-500 cursor-pointer"
-                  >
+                    class="text-base font-semibold text-gray-500 cursor-pointer">
                     {{ item.awards }}
                   </p>
                 </div>

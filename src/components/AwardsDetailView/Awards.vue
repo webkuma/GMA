@@ -54,27 +54,27 @@ function updateSelectedYear(awards) {
     <select
       @change="updateSelectedYear($event.target.value)"
       v-model="routerParamsAwards"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-2">
+      class="bg-gray-50 border-1 border-cg3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-2">
       <option :value="item.awards" v-for="item in awardsData" :key="item.id">
         {{ item.awards }}
       </option>
     </select>
   </section>
   <!-- 左側 > lg 顯示圖形化的介面 -->
-  <section class="w-1/2 bg-gray-600 bg-opacity-20 rounded hidden lg:block">
-    <h2 class="pt-4 text-2xl font-bold text-center text-yellow-200">
+  <section class="w-1/2 border-1 border-cg3 bg-cg2 rounded hidden lg:block">
+    <h2 class="pt-4 text-2xl font-bold text-center text-black">
       看其他獎項
     </h2>
     <div
       class="place-items-center place-content-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
       <!-- awardsData[0]:awards [1]:src [2]:year -->
       <div
-        class="relative w-32 h-32 flex items-center justify-center bg-custom-gold rounded-md cursor-pointer m-4"
+        class="relative w-32 h-32 flex items-center justify-center bg-cg4 rounded-md cursor-pointer m-4"
         v-for="item in awardsData"
         :key="item.id"
         @click="updateSelectedYear(item.awards)">
         <span
-          class="absolute inset-0 bg-black rounded-md opacity-50"
+          class="absolute inset-2 bg-black rounded-md opacity-10"
           aria-hidden="true"></span>
         <span class="absolute font-bold">{{ item.awards }}</span>
         <img

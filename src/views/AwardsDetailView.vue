@@ -91,7 +91,7 @@ onMounted(async () => {
         <!-- 導航列 -->
         <div class="flex justify-between items-center">
           <nav
-            class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50"
+            class="flex justify-between items-center p-3 text-gray-700 border-1 border-cg3 rounded-lg bg-gray-50"
             aria-label="Breadcrumb">
             <ol
               class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -167,7 +167,7 @@ onMounted(async () => {
       </div>
 
       <!-- [0]:id、[1]:獎項、[2]:歌手、[3]:歌、[4]:年、[5]:得獎0/1、[6]:圖片url -->
-      <div class="flex flex-col lg:flex-row gap-1 px-4">
+      <div class="flex flex-col lg:flex-row gap-3 px-4">
         <!-- 左側獎項資訊 -->
         <Awards></Awards>
         <!-- 右側歌曲資訊 -->

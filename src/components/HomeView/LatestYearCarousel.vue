@@ -50,16 +50,14 @@ function carouselRouter(year, awards) {
     <div
       class="col-span-1 flex flex-col items-center justify-center px-2"
       data-aos="zoom-in">
-      <h2 class="text-4xl text-main font-black pt-4">
-        {{ lastYear }} 最新提名
-      </h2>
-      <h3 class="text-xl text-main py-4">點選圖片查看詳細資料</h3>
+      <h2 class="text-4xl text-cg5 font-black pt-4">{{ lastYear }} 最新提名</h2>
+      <h3 class="text-xl text-cg4 py-4">點選圖片查看詳細資料</h3>
     </div>
     <div
       data-aos="fade-left"
       data-aos-easing="ease-out-cubic"
       data-aos-duration="1000"
-      class="col-span-1 sm:col-span-3 bg-[#0D6EFD40] text-accent rounded-l-3xl p-16">
+      class="col-span-1 sm:col-span-3 border-1 border-cg3 bg-cg2 text-black rounded-l-3xl p-16">
       <div
         class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
         <div>
@@ -77,7 +75,7 @@ function carouselRouter(year, awards) {
                 <div
                   class="flex flex-col items-center justify-center pt-2 pb-4">
                   <h3 class="min-h-[45px] flex items-center font-semibold">
-                    {{ item.nominee + " " + item.work }}
+                    {{ item.nominee + "／" + item.work }}
                   </h3>
                 </div>
               </SplideSlide>
@@ -99,7 +97,7 @@ function carouselRouter(year, awards) {
                 <div
                   class="flex flex-col items-center justify-center pt-2 pb-4">
                   <h3 class="min-h-[45px] flex items-center font-semibold">
-                    {{ item.nominee + " " + item.work }}
+                    {{ item.nominee + "／" + item.work }}
                   </h3>
                 </div>
               </SplideSlide>
@@ -121,7 +119,7 @@ function carouselRouter(year, awards) {
                 <div
                   class="flex flex-col items-center justify-center pt-2 pb-4">
                   <h3 class="min-h-[45px] flex items-center font-semibold">
-                    {{ item.nominee + " " + item.work }}
+                    {{ item.nominee + "／" + item.work }}
                   </h3>
                 </div>
               </SplideSlide>
@@ -143,7 +141,7 @@ function carouselRouter(year, awards) {
                 <div
                   class="flex flex-col items-center justify-center pt-2 pb-4">
                   <h3 class="min-h-[45px] flex items-center font-semibold">
-                    {{ item.nominee + " " + item.work }}
+                    {{ item.nominee + "／" + item.work }}
                   </h3>
                 </div>
               </SplideSlide>

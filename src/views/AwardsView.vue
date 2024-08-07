@@ -61,7 +61,7 @@ onMounted(async () => {
         <!-- 導航列 -->
         <div class="flex justify-between items-center">
           <nav
-            class="flex justify-between items-center p-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50"
+            class="flex justify-between items-center p-3 text-gray-700 border-1 border-cg3 rounded-lg bg-gray-50"
             aria-label="Breadcrumb">
             <ol
               class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
