@@ -169,8 +169,8 @@ function getIsStoragedLength() {
       <div
         v-if="!getIsStoragedLength()"
         class="p-4 flex flex-col items-center justify-center">
-        <p class="text-6xl text-custom-gold">(='X'=)</p>
-        <p class="text-2xl text-center pt-4">目前還沒有收藏作品</p>
+        <p class="text-6xl text-cg4">(='X'=)</p>
+        <p class="text-2xl text-center pt-4 text-cg4">目前還沒有收藏作品</p>
       </div>
     </div>
   </main>
