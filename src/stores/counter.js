@@ -142,7 +142,7 @@ export const useSearchStore = defineStore('search', () => {
         year: data.year,
         won: data.won,
         url: data.url,
-        isStoraged: localStorage.getItem(`favoriteStorage-${data.id}`) ? true : false,
+        isStoraged: !!localStorage.getItem(`favoriteStorage-${data.id}`),
       });
       // console.log(transformedData)
     });
