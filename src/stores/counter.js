@@ -86,9 +86,7 @@ export const useSearchStore = defineStore('search', () => {
     // 步驟 1: 從資料庫中取得資料
     result.value = await searchShortlist(searchWord.value);
     storageMatchData.value = result.value;
-    console.log(result.value)
-      // result.value = db.exec(`select * from shortlist`);
-
+    // console.log(result.value)
       // 步驟 2: 根據 searchWord 搜尋匹配的資料
       // storageMatchData.value = getMatchingData(searchWord.value, result.value[0].values);
 
@@ -144,7 +142,7 @@ export const useSearchStore = defineStore('search', () => {
         year: data.year,
         won: data.won,
         url: data.url,
-        isStoraged: localStorage.getItem(`favoriteStorage-${data[0]}`) ? true : false,
+        isStoraged: localStorage.getItem(`favoriteStorage-${data.id}`) ? true : false,
       });
       // console.log(transformedData)
     });
