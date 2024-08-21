@@ -41,9 +41,9 @@
   - **mitt**：用於兄弟組件傳遞參數。
 
 - **後端**：
-  **Supabase**：用於即時數據管理和雲端資料存儲，取代本地的 **Node.js** 和 **SQLite**。
-  ~~- **Node.js + Express**：在本地環境中設置 Mock Server，用於模擬 API 接口以支持前端開發。~~
-  ~~- **SQLite**：輕量級資料庫用於本地資料存儲。~~
+  - **Supabase**：用於即時數據管理和雲端資料存儲，取代本地的 **Node.js** 和 **SQLite**。
+  - ~~**Node.js + Express**：在本地環境中設置 Mock Server，用於模擬 API 接口以支持前端開發。~~
+  - ~~**SQLite**：輕量級資料庫用於本地資料存儲。~~
 
 ## 🚀 技術轉換
 
