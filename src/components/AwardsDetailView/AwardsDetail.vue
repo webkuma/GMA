@@ -29,7 +29,7 @@ const yearList = ref(); // 下拉選單所有年份
 const selectedYear = ref("");
 // test
 const awardsDetail = ref();
-const matchid = ref(1);
+const matchid = ref();
 const token = ref();
 const searchKeyword = ref();
 const searchType = ref();
@@ -104,7 +104,7 @@ async function audition(song, singer, awards) {
     //   token.value.access_token
     // );
     const res = await getKKBOX_id(song, singer, awards);
-    matchid.value = res[0].kkbox_id === "null" ? "" : res[0].kkbox_id;
+    matchid.value = res[0].kkbox_id;
     toast.clearAll();
   } catch (error) {
     console.error(error);
@@ -151,7 +151,7 @@ function deleteAlbum(song) {
       </div>
     </div>
     <!-- 歌曲 iframe-->
-    <div v-if="matchid" class="flex justify-center">
+    <div v-if="matchid !== 'null'" class="flex justify-center">
       <div v-if="searchType === 'track'">
         <iframe
           class="h-[100px] w-72"
@@ -159,7 +159,7 @@ function deleteAlbum(song) {
           allow="autoplay" />
       </div>
     </div>
-    <div v-else class="flex justify-center">
+    <div v-if="matchid === 'null'" class="flex justify-center">
       <p
         class="text-black font-bold border-1 bg-yellow-500 rounded-xl px-4 py-2">
         這首找不到試聽資源 (*´･д･)
@@ -274,13 +274,13 @@ function deleteAlbum(song) {
     </div>
     <div class="offcanvas-body flex items-center justify-center">
       <div v-if="searchType === 'album'">
-        <div v-if="matchid">
+        <div v-if="matchid !== 'null'">
           <iframe
             class="fixed top-[64px] left-3 h-[calc(100%-64px)] border-0"
             :src="`https://widget.kkbox.com/v1/?id=${matchid}&type=album&terr=TW&lang=TC&autoplay=true`"
             allow="autoplay" />
         </div>
-        <div v-else class="flex justify-center">
+        <div v-if="matchid === 'null'" class="flex justify-center">
           <p
             class="text-black font-bold border-1 bg-yellow-500 rounded-xl px-4 py-2">
             這首找不到試聽資源 (*´･д･)
