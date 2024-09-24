@@ -62,9 +62,7 @@ function updateSelectedYear(awards) {
   </section>
   <!-- 左側 > lg 顯示圖形化的介面 -->
   <section class="w-1/2 border-1 border-cg3 bg-cg2 rounded hidden lg:block">
-    <h2 class="pt-4 text-2xl font-bold text-center text-black">
-      看其他獎項
-    </h2>
+    <h2 class="pt-4 text-2xl font-bold text-center text-black">看其他獎項</h2>
     <div
       class="place-items-center place-content-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
       <!-- awardsData[0]:awards [1]:src [2]:year -->
@@ -74,7 +72,7 @@ function updateSelectedYear(awards) {
         :key="item.id"
         @click="updateSelectedYear(item.awards)">
         <span
-          class="absolute inset-2 bg-black rounded-md opacity-10"
+          class="absolute inset-1 bg-black opacity-30 rounded-md"
           aria-hidden="true"></span>
         <span class="absolute font-bold">{{ item.awards }}</span>
         <img
