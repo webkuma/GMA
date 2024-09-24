@@ -5,7 +5,10 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { Offcanvas } from "bootstrap";
 import emitter from "@/components/utils/emitter.js";
-import { fetchShortlistAwardsDetailData } from "@/lib/frontendQuery.js";
+import {
+  fetchShortlistAwardsDetailData,
+  getKKBOX_id,
+} from "@/lib/frontendQuery.js";
 
 import {
   useGetKkboxTokenStore,
@@ -26,7 +29,7 @@ const yearList = ref(); // 下拉選單所有年份
 const selectedYear = ref("");
 // test
 const awardsDetail = ref();
-const matchid = ref();
+const matchid = ref(1);
 const token = ref();
 const searchKeyword = ref();
 const searchType = ref();
@@ -95,11 +98,13 @@ async function audition(song, singer, awards) {
   });
 
   try {
-    matchid.value = await getSongIdSotre.getSongId(
-      searchKeyword.value,
-      searchType.value,
-      token.value.access_token
-    );
+    // matchid.value = await getSongIdSotre.getSongId(
+    //   searchKeyword.value,
+    //   searchType.value,
+    //   token.value.access_token
+    // );
+    const res = await getKKBOX_id(song, singer, awards);
+    matchid.value = res[0].kkbox_id === "null" ? "" : res[0].kkbox_id;
     toast.clearAll();
   } catch (error) {
     console.error(error);
@@ -153,6 +158,12 @@ function deleteAlbum(song) {
           :src="`https://widget.kkbox.com/v1/?id=${matchid}&type=song&terr=TW&lang=TC&autoplay=true`"
           allow="autoplay" />
       </div>
+    </div>
+    <div v-else class="flex justify-center">
+      <p
+        class="text-black font-bold border-1 bg-yellow-500 rounded-xl px-4 py-2">
+        這首找不到試聽資源 (*´･д･)
+      </p>
     </div>
 
     <div
@@ -263,10 +274,18 @@ function deleteAlbum(song) {
     </div>
     <div class="offcanvas-body flex items-center justify-center">
       <div v-if="searchType === 'album'">
-        <iframe
-          class="fixed top-[64px] left-3 h-[calc(100%-64px)] border-0"
-          :src="`https://widget.kkbox.com/v1/?id=${matchid}&type=album&terr=TW&lang=TC&autoplay=true`"
-          allow="autoplay" />
+        <div v-if="matchid">
+          <iframe
+            class="fixed top-[64px] left-3 h-[calc(100%-64px)] border-0"
+            :src="`https://widget.kkbox.com/v1/?id=${matchid}&type=album&terr=TW&lang=TC&autoplay=true`"
+            allow="autoplay" />
+        </div>
+        <div v-else class="flex justify-center">
+          <p
+            class="text-black font-bold border-1 bg-yellow-500 rounded-xl px-4 py-2">
+            這首找不到試聽資源 (*´･д･)
+          </p>
+        </div>
       </div>
       <!-- <button class="btn btn-secondary" type="button">A Button</button> -->
     </div>

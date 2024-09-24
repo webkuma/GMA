@@ -96,7 +96,7 @@ export async function fetchWonList(){
   return data;
 }
 
-// view_shortlist: select * from shortlist
+// 搜尋頁的搜尋功能
 export async function searchShortlist(parms){
   const { data, error } = await supabase
     .from('shortlist')
@@ -105,6 +105,22 @@ export async function searchShortlist(parms){
 
   if (error) {
     console.error('Error fetching shortlist wonlist:', error);
+    throw error;
+  }
+  return data;
+}
+
+// 試聽功能 取得作品的 kkbox_id
+export async function getKKBOX_id(work, nominee, awards){
+  const { data, error } = await supabase
+    .from('shortlist')
+    .select('kkbox_id')
+    .eq('work', work)
+    .eq('nominee', nominee)
+    .eq('awards', awards)
+
+  if (error) {
+    console.error('Error fetching shortlist getKKBOX_id:', error);
     throw error;
   }
   return data;
