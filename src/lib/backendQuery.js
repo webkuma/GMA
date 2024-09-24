@@ -148,7 +148,7 @@ export async function getShortlistByYearAndAwards(parms) {
     for (let e of parms) {
       const { error, status } = await supabase
       .from('shortlist')
-      .insert({ awards: e.awards, nominee: e.nominee, work: e.work, year: e.year, won: e.won, url: e.url})
+      .insert({ awards: e.awards, nominee: e.nominee, work: e.work, year: e.year, won: e.won, url: e.url, kkbox_id: e.kkbox_id})
       .select()
     
       if (error) {

@@ -22,6 +22,7 @@ const yearlyAwards = ref(); // 儲存每年獎項的數據
 const awardsNameList = ref(); // 儲存獎項名稱列表
 const newYearInput = ref(); // 用於輸入新年份的數據
 const isRemoving = ref(0); // 用於切換移除狀態的布林值（0 為關閉，1 為開啟）
+const isSignInVerify = ref(false);
 
 onMounted(async () => {
   isSignIn();
@@ -33,6 +34,9 @@ onMounted(async () => {
 async function isSignIn() {
   const verifyRouter = await verifySignIn();
   router.push({ path: `${verifyRouter}` });
+  if (verifyRouter === "/admin") {
+    isSignInVerify.value = true;
+  }
 }
 // 登出
 async function isSignOut() {
@@ -162,8 +166,8 @@ async function showAlert(awards) {
   // 顯示資料
   const res = await getShortlistByYearAndAwards(data);
   res.forEach((item) => {
-    inputValue += `<span class='m-2 text-xl font-bold'> ${item.nominee}／${item.work}／${item.url}<span><br>`;
-    textareaValue += `${item.nominee}／${item.work}／${item.url} \n`;
+    inputValue += `<span class='m-2 text-base font-bold'> ${item.nominee}／${item.work}／${item.url}<span><br>`;
+    textareaValue += `${item.nominee}／${item.work}／${item.url}／${item.kkbox_id}\n`;
   });
   Swal.fire({
     title: nowChooseYear.value + awards,
@@ -198,11 +202,15 @@ async function showAlert(awards) {
           year: nowChooseYear.value,
           won: 0,
           url: parts[2] ? parts[2].trim() : "",
+          kkbox_id: parts[3],
         });
       });
       try {
-        deleteAwardEntry(awards);
-        addAwardEntry(newArr);
+        console.log("開始刪除");
+        await deleteAwardEntry(awards);
+        console.log("刪除完成，開始新增");
+        await addAwardEntry(newArr);
+        console.log("新增完成");
       } catch (error) {
         console.error(error.message);
       }
@@ -216,7 +224,7 @@ function switchRemoveStatus() {
 </script>
 <template>
   <body class="bg-gray-200 w-full h-full">
-    <div id="app">
+    <div id="app" v-if="isSignInVerify">
       <!-- title -->
       <div class="bg-blue-500 text-white text-center p-4 text-4xl">
         後台管理
