@@ -186,7 +186,7 @@ function deleteAlbum(song) {
         </div>
       </div>
       <!-- 試聽按鈕 -->
-      <div v-if="token" class="flex items-center justify-center">
+      <div class="flex items-center justify-center">
         <button
           v-if="
             item.awards === '年度歌曲獎' ||
