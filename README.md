@@ -82,7 +82,6 @@ src/
 │   │── AwardsView/       # 獎項頁面組件
 │   │── HomeView/         # 主頁組件
 │   ├── Menu.vue          # 選單組件
-│   ├── MenuContent.vue   # 選單內容組件
 │   └── SearchBox.vue     # 搜索框組件
 ├── views/                # 頁面視圖
 │   ├── AwardsDetailView.vue # 獎項詳情頁面
