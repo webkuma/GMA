@@ -1,37 +1,7 @@
 import { fetchShortlistYear, fetchShortlist, searchShortlist } from "@/lib/frontendQuery.js";
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import initSqlJs from 'sql.js';
 import axios from 'axios';
-const path = process.env.NODE_ENV === 'production' ? '/GMA' : ''
-
-/** 將 SQLite 返回的数据格式转换为对象数组。
- * 
- * @param {Array} columns - 包含列名的数组，每个元素是一个列名字符串。例如：['id', 'awards', 'nominee', 'work', 'year', 'won', 'url']。
- * @param {Array} values - 包含数据值的二维数组，每个子数组表示一行数据。例如：[[1, 'Best Actor', 'Leonardo DiCaprio', 'Inception', 2010, true, 'https://example.com/1'], ...]。
- * @returns {Array} - 转换后的对象数组，每个对象对应一行数据，其中键是列名，值是数据值。
- * 
- * @example
- * const columns = ['id', 'awards', 'nominee', 'work', 'year', 'won', 'url'];
- * const values = [
- *   [1, 'Best Actor', 'Leonardo DiCaprio', 'Inception', 2010, true, 'https://example.com/1'],
- *   [2, 'Best Actress', 'Natalie Portman', 'Black Swan', 2010, true, 'https://example.com/2'],
- * ...];
- * const result = mapSQLiteResultToObjects(columns, values);
- * // result: [
- * //   { id: 1, awards: 'Best Actor', nominee: 'Leonardo DiCaprio', work: 'Inception', year: 2010, won: true, url: 'https://example.com/1' },
- * //   { id: 2, awards: 'Best Actress', nominee: 'Natalie Portman', work: 'Black Swan', year: 2010, won: true, url: 'https://example.com/2' },
- * // ...]
- */
-const mapSQLiteResultToObjects = (columns, values) => {
-  return values.map(valueArray => {
-      let obj = {};
-      columns.forEach((col, index) => {
-          obj[col] = valueArray[index];
-      });
-      return obj;
-  });
-};
 
 export const useMenuStore = defineStore('menu', () => {
   const isMaskClicked = ref(0);
@@ -53,7 +23,6 @@ export const useSearchStore = defineStore('search', () => {
   const searchWord = ref(); // input 或 keyword 放這
   const storageMatchData = ref([]);
   const yearsData = ref();
-  const result = ref();
 
   const state = reactive({
     UnsearchedState: true, // 預設顯示排行榜
@@ -78,49 +47,30 @@ export const useSearchStore = defineStore('search', () => {
   function setSearchWord(keyword = null){
     updateState('Searching');
     searchWord.value = keyword ? keyword : searchInput.value;
-    searchInput.value = keyword ? keyword : searchInput.value;
     searchHandler();
   }
+  
   // 主要的搜尋處理函數
   async function searchHandler() {
     // 步驟 1: 從資料庫中取得資料
-    result.value = await searchShortlist(searchWord.value);
-    storageMatchData.value = result.value;
-    // console.log(result.value)
-      // 步驟 2: 根據 searchWord 搜尋匹配的資料
-      // storageMatchData.value = getMatchingData(searchWord.value, result.value[0].values);
-
-      // 同時將 yearsData.value 設為 undefined，以確保沒有年份資料被顯示
-      if (!storageMatchData.value.length) {
-        yearsData.value = undefined;
-        updateState('SearchedNotFound');
-      } else {
-        // 步驟 3: 將 storageMatchData 轉換為所需的格式
-        yearsData.value = transformData(storageMatchData.value);
-        updateState('SearchedFound');
-
-        // 步驟 4: 對資料按年份和 won 屬性進行排序
-        sortData(yearsData.value);
-
-        // 步驟 5: 捲動回頂端
-        scrollToTop();
-      }
-
-      // console.log(yearsData.value);
-      return Promise.resolve();
-  }
-  
-  // 根據 searchWord 過濾資料
-  function getMatchingData(searchWord, data) {
-    // e[0]:id [1]:awards, [2]:nominee, [3]:work, [4]:year, [5]:won, [6]:url  
-    return data.filter((e) => isMatch(searchWord, e[1], e[2], e[3]));
-  }
-  
-  // 檢查 searchWord 是否與資料中的任何字段匹配
-  function isMatch(searchWord, ...fields) {
-    if (!searchWord) return false;
-    const lowerSearchWord = searchWord.toLowerCase();
-    return fields.some((field) => field.toLowerCase().includes(lowerSearchWord));
+    const result = await searchShortlist(searchWord.value);
+    storageMatchData.value = result;
+    
+    // 步驟 2: 若沒有匹配的結果，將 yearsData.value 設為 null，確保資料不會顯示
+    if (!storageMatchData.value.length) {
+      yearsData.value = null;
+      updateState('SearchedNotFound');
+    } else {
+      // 步驟 3: 將 storageMatchData 轉換為所需的格式
+      yearsData.value = transformData(storageMatchData.value);
+      updateState('SearchedFound');
+      // 步驟 4: 對資料按年份和 won 屬性進行排序
+      sortData(yearsData.value);
+      // 步驟 5: 捲動回頂端
+      scrollToTop();
+    }
+    // console.log(yearsData.value);
+    return Promise.resolve();
   }
   
   // 將 storageMatchData 轉換為所需的格式
