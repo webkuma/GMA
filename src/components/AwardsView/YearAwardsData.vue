@@ -23,7 +23,7 @@ onMounted(async () => {
  */
 async function getYearData(year) {
   const res = await fetchShortlistAwardsData(year);
-  if (res) {
+  if (res.length) {
     awardsData.value = res;
   } else {
     emitter.emit("isNotFoundYear", true);
