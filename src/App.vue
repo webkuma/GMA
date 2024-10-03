@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import SearchBox from './components/SearchBox.vue';
-import MenuContent from './components/MenuContent.vue';
 import Menu from './components/Menu.vue';
 </script>
 
@@ -34,5 +33,4 @@ import Menu from './components/Menu.vue';
   </header>
   <div class="h-16"></div>
   <RouterView />
-  <MenuContent />
 </template>
