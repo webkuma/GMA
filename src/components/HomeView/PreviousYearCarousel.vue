@@ -57,11 +57,11 @@ function carouselRouter(year, awards) {
       class="col-span-1 sm:col-span-3 border-1 border-cg3 bg-cg2 text-black rounded-r-3xl p-16">
       <div
         class="grid grid-cols-1 lg:grid-cols-2 place-items-center place-content-center">
-        <div>
+        <div v-if="previousYearTopSongNominees?.length">
           <h3 class="text-center font-bold text-2xl my-4">年度歌曲獎</h3>
           <div class="h-[230px] w-[250px]">
             <Splide
-              :options="{ rewind: true, autoplay: true, type: loop }"
+              :options="{ rewind: true, autoplay: true, type: 'loop' }"
               aria-label="My Favorite Images">
               <SplideSlide
                 v-for="item in previousYearTopSongNominees"
@@ -81,11 +81,11 @@ function carouselRouter(year, awards) {
             </Splide>
           </div>
         </div>
-        <div>
+        <div v-if="previousYearNewArtistNominees?.length">
           <h3 class="text-center font-bold text-2xl my-4">最佳新人獎</h3>
           <div class="h-[230px] w-[250px]">
             <Splide
-              :options="{ rewind: true, autoplay: true, type: loop }"
+              :options="{ rewind: true, autoplay: true, type: 'loop' }"
               aria-label="My Favorite Images">
               <SplideSlide
                 v-for="item in previousYearNewArtistNominees"
@@ -105,11 +105,11 @@ function carouselRouter(year, awards) {
             </Splide>
           </div>
         </div>
-        <div>
+        <div v-if="previousYearFemaleSingerNominees?.length">
           <h3 class="text-center font-bold text-2xl my-4">最佳華語女歌手獎</h3>
           <div class="h-[230px] w-[250px]">
             <Splide
-              :options="{ rewind: true, autoplay: true, type: loop }"
+              :options="{ rewind: true, autoplay: true, type: 'loop' }"
               aria-label="My Favorite Images">
               <SplideSlide
                 v-for="item in previousYearFemaleSingerNominees"
@@ -129,11 +129,11 @@ function carouselRouter(year, awards) {
             </Splide>
           </div>
         </div>
-        <div>
+        <div v-if="previousYearMaleSingerNominees?.length">
           <h3 class="text-center font-bold text-2xl my-4">最佳華語男歌手獎</h3>
           <div class="h-[230px] w-[250px]">
             <Splide
-              :options="{ rewind: true, autoplay: true, type: loop }"
+              :options="{ rewind: true, autoplay: true, type: 'loop' }"
               aria-label="My Favorite Images">
               <SplideSlide
                 v-for="item in previousYearMaleSingerNominees"
