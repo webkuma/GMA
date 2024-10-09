@@ -46,7 +46,7 @@ export const useSearchStore = defineStore('search', () => {
   // searchWord 放入搜尋字 呼叫 searchHandler() 處理搜尋
   function setSearchWord(keyword = null){
     updateState('Searching');
-    searchWord.value = keyword ? keyword : searchInput.value;
+    searchWord.value = (keyword ? keyword : searchInput.value).trim();
     searchHandler();
   }
   

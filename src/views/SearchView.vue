@@ -6,8 +6,9 @@ import "vue3-toastify/dist/index.css";
 import { fetchWonList } from "@/lib/frontendQuery.js";
 
 // router
-import { RouterLink, useRouter } from "vue-router";
+import { RouterLink, useRouter, useRoute } from "vue-router";
 const router = useRouter();
+const route = useRoute();
 // pinia
 import { useSearchStore } from "../stores/counter.js";
 const store = useSearchStore();
@@ -19,12 +20,19 @@ const isListView = ref(0); // 是否顯示 List (table)
 
 onMounted(async () => {
   await router.isReady();
+  checkAndSetSearchKeyword();
   if (!mountedWonList.value) {
     const res = await fetchWonList();
     mountedWonList.value = res;
   }
 });
 
+// 判斷是否通過 URL 直接進入搜尋頁，如果有參數就設定搜尋關鍵字
+function checkAndSetSearchKeyword() {
+  if (route.params.keyword) {
+    store.setSearchWord(route.params.keyword);
+  }
+}
 // 反轉年份排序
 function reverseArray() {
   isReverseArray.value = !isReverseArray.value;
@@ -76,6 +84,11 @@ function handleAddToLocalStorage(id) {
 // 切換成列表模式 (table)
 function toggleListView() {
   isListView.value = !isListView.value;
+}
+//  調用 Pinia 中的 backWonList 函數以清除搜尋相關資料，再將路由替換為 /Search
+function backWonList() {
+  store.backWonList();
+  router.replace({ path: "/Search" });
 }
 </script>
 <template>
@@ -179,7 +192,7 @@ function toggleListView() {
           <!-- 獲獎列表按鈕 -->
           <button
             v-if="!store.state.UnsearchedState && !store.state.Searching"
-            @click="store.backWonList()"
+            @click="backWonList()"
             type="button"
             class="p-3 text-[#f4e0b2] font-black bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-yellow-500 dark:focus:ring-red-400 rounded-lg text-sm text-center">
             獲獎列表
