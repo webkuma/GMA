@@ -90,6 +90,13 @@ function backWonList() {
   store.backWonList();
   router.replace({ path: "/Search" });
 }
+// @click 搜尋頁的排行/搜尋後的資料點擊歌手或獎項，關鍵字作為參數推送到 /Search/:關鍵字
+// 設置搜尋字，將 click 的關鍵字存入狀態管理 (store) 中
+function handleSearch(keyword) {
+  router.push({ path: `/Search/${keyword}` }).then(() => {
+    store.setSearchWord(keyword);
+  });
+}
 </script>
 <template>
   <main>
@@ -239,7 +246,7 @@ function backWonList() {
             v-for="(item, index) in mountedWonList"
             :key="index"
             class="flex shadow-custom-inner shadow-yellow-500 sh mx-2 mt-5 p-4 rounded-lg bg-cg2 hover:cursor-pointer"
-            @click="store.setSearchWord(item.nominee)">
+            @click="handleSearch(item.nominee)">
             <img
               v-lazy="item.url"
               class="w-24 h-24 rounded-lg aspect-square"
@@ -318,14 +325,14 @@ function backWonList() {
                     </td>
                     <td
                       class="text-base font-normal cursor-pointer"
-                      @click="store.setSearchWord(item.nominee)">
+                      @click="handleSearch(item.nominee)">
                       {{ item.nominee }}
                     </td>
                     <td class="text-base font-normal">{{ item.work }}</td>
                     <td
                       colspan="4"
                       class="text-base font-normal cursor-pointer"
-                      @click="store.setSearchWord(item.awards)">
+                      @click="handleSearch(item.awards)">
                       {{ item.awards }}
                     </td>
                   </tr>
@@ -382,7 +389,7 @@ function backWonList() {
                     <span
                       :class="{ 'text-red-500': item.won }"
                       class="text-base sm:text-xl font-semibold text-gray-700 cursor-pointer"
-                      @click="store.setSearchWord(item.nominee)">
+                      @click="handleSearch(item.nominee)">
                       {{ item.nominee }}
                     </span>
                     <span
@@ -392,7 +399,7 @@ function backWonList() {
                     </span>
                   </div>
                   <p
-                    @click="store.setSearchWord(item.awards)"
+                    @click="handleSearch(item.awards)"
                     :class="{ 'text-red-500': item.won }"
                     class="text-base font-semibold text-gray-500 cursor-pointer">
                     {{ item.awards }}
