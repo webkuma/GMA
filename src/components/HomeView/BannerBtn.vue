@@ -34,8 +34,9 @@ function updateSelectedYear(year) {
   <button
     data-aos="fade-left"
     data-aos-easing="ease-out-cubic"
-    data-aos-duration="1000"
+    data-aos-duration="500"
     data-aos-once="true"
+    data-aos-delay="600"
     v-if="lastYear"
     @click="updateSelectedYear(lastYear)"
     type="button"

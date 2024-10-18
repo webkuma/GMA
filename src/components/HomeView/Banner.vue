@@ -42,13 +42,19 @@ onMounted(async () => {
             Awards
           </span>
         </p>
-        <p class="px-2 text-center text-2xl font-semibold text-accent">
+        <p
+          data-aos="fade-down"
+          class="px-2 text-center text-2xl font-semibold text-accent">
           Discover and Explore the Music
         </p>
-        <p class="px-2 text-center text-2xl font-semibold text-accent">
+        <p
+          data-aos="fade-down"
+          class="px-2 text-center text-2xl font-semibold text-accent">
           The Artists, Awards, and Works
         </p>
-        <BannerBtn></BannerBtn>
+        <div class="h-32">
+          <BannerBtn></BannerBtn>
+        </div>
       </div>
     </div>
   </div>
